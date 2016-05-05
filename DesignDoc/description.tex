@@ -29,7 +29,7 @@ GPU's are exceptionally good at high throughput calculations, one particular exa
 
 The actual speed improvements derived from redeveloping serial code to take advantage of the massively parallel compute power of a GPU differs between each of these operations, however many serial algorithms have equivalent or more performant alternate parallel implementations. As such this project involves developing a small set of benchmarks for GPU's that determine their performance in each of these categories.
 
-\subsubsubsection{Deliberately Difficult Benchmarks}
+\subsubsection{Deliberately Difficult Benchmarks}
 Whilst GPU's can be incredibly powerful, deliberate design decisions in the architecture of the GPU allow for significantly worse performance than one may expect from algorithms that should seemingly perform well on a GPU. There are a number of situations that may arise which decrease GPU computational efficiency including:
 
 \begin{itemize}
@@ -39,6 +39,7 @@ Whilst GPU's can be incredibly powerful, deliberate design decisions in the arch
 \item Data dependencies
 \end{itemize}
 
+Some serial algorithms may look easily parallelizable, however they may contain one, or many of these potential inefficenciesm, and then as such they will not perform as well as one might expect on a GPU. It is therefore important in analysing potential speedups to see the performance of algorithms which \emph{appear} to be readily parallelizable, yet in practice do not perform to expectation. As such part of the project is to develop a set of benchmarks which appear to be efficient on a GPU, yet actually perform poorly.
 
 \subsubsection{CUDA}
 CUDA is Nvidia's proprietry library and toolchain for developing parallel software. There are 2 main frameworks in the GPU programming space, CUDA and OpenCL. Whilst OpenCL is a FOSS platform, the development tools are severly lacking in comparison to the CUDA toolkit, and as such it was an easy decision to follow through with the CUDA. This however has limited the performance metrics to only comparisons involving CUDA enabled graphics cards.
