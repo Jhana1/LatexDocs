@@ -16,12 +16,14 @@ The requirements analysis broke the project down into 3 major components:
 
 which then allows the breakdown of what so far has happened in the project.
 
-\section{GPU Benchmark Development}
+\subsection{GPU Benchmark Development}
 As described earlier, the importance of developing working GPU benchmarking code for known problem classes allows for better analytics and reporting in the serial algorithm analysis portions. This therefore is a key aspect of satisfactorily completing the project. The GPU benchmark development has a number of requirements that describe what the project necessitates.
 
-\subsection{Requirements}
+\subsubsection{Requirements}
 
-\subsubsection{[FR.003] - The program shall run developed benchmark algorithms to further analytical information.}
+\paragraph{[FR.003]}
+\textbf{The program shall run developed benchmark algorithms to further analytical information.}
+
 This requirement relates directly to the overall aim of the project, which is described in the requirements just proceeding this. As the project currently stands there is only one working benchmark developed, it is a best case memory bandwidth test which requests on device memory, fills it with junk host memory, and requests theen now junk device memory be copied back to the host. This test aims to determine the peak memory bandwidth for the device, which can then be used to determine absolute optimal performance of any subsequent alogrithm.
 
 In order to complete the project more benchmarks need to be written, to specifically cover algorithm optimisation cases identified in the serial analytics portion of the project. Necessary benchmarks are as follows: 
@@ -36,3 +38,37 @@ In order to complete the project more benchmarks need to be written, to specific
 \end{itemize}
 
 Upon completion of these benchmarks this requirement will have been completed, interfacing and using the results of these benchmarks are a seperate requirement.
+
+\paragraph{[OA.001]}
+\textbf{The program shall run custom benchmark algorithms to identify GPU
+performance.}
+
+This requirement describes that the benchmarking algorithms must be utilised to identify GPU performance. In order to satisfy this requirement my intention is to produce benchmarking code for GPU performance in problem sets that are both known to be performant on a GPU as well as benchmarks that may naively appear to be performant, yet further inspection demonstrates that they are not in fact performant. This is a rather large task in and of itself, and has the potential to be an entire FYP on its own, as such significant compromises must be undertaken. In this particular case only 2 non-performant algorithms will be developed, they are:
+
+\begin{itemize}
+\item Recursive Dependent Matrix Calculations
+\item Highly Divergent Hashmap Traversal 
+\end{itemize}
+
+These problem sets seem to be readily parallelizable, however they in fact exacerbate the weaknesses of the general NVidia GPU architecture (and potentially other co-processor architectures I have not worked with). The results of these benchmarks contextualise the information derived from the code analytics portion, giving rise to more useful metrics defining best and worst case performance.
+
+\paragraph{[OA.002]}
+\textbf{The program shall work on all CUDA devices.}
+
+After careful consideration this requirement has been relaxed as it is far too strict. When writing the requirements analysis I was not as familiar with the CUDA toolchain as I am at this point of my project, and as such it is now apparent that writing Compute Capability agnostic code is a very difficult feat. In order to best satisfy the other requirements of this project I shall be limiting benchmarking code to work on CUDA capable devices of Compute Capability 3.5 and above. This compute capability was chosen as the capabilities of CUDA Cards differ significantly pre and post Compute Capability 3. This revision of the initial requirement shall save significant time and effort from being wasted in localisation and highly technical activities that benefit the overall project very little.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
