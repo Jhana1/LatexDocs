@@ -1,0 +1,38 @@
+%!TEX root = main.tex
+%----------------------------------------------------------------------------------------
+%	RE-EVALUATION OF INITIAL GOALS
+%----------------------------------------------------------------------------------------
+
+\section{Re-evaluation of Initial Goals}
+In order to consolidate the current position of this project, and to best identify a pathway to completion, it's important to take another look at the initial requirements set forth in the requirements analysis. Within the requirements analysis there were a set of goals that defined the project and from which all development so far has stemmed; by looking at these requirements and evaluating the current trajectory of the project a detailed description of what is required and how it will be achieved can be compiled.
+
+The requirements analysis broke the project down into 3 major components:
+
+\begin{itemize}
+\item GPU Benchmark Development
+\item Algorithm Analytics Development
+\item Optimisation Analytics Development
+\end{itemize}
+
+which then allows the breakdown of what so far has happened in the project.
+
+\section{GPU Benchmark Development}
+As described earlier, the importance of developing working GPU benchmarking code for known problem classes allows for better analytics and reporting in the serial algorithm analysis portions. This therefore is a key aspect of satisfactorily completing the project. The GPU benchmark development has a number of requirements that describe what the project necessitates.
+
+\subsection{Requirements}
+
+\subsubsection{[FR.003] - The program shall run developed benchmark algorithms to further analytical information.}
+This requirement relates directly to the overall aim of the project, which is described in the requirements just proceeding this. As the project currently stands there is only one working benchmark developed, it is a best case memory bandwidth test which requests on device memory, fills it with junk host memory, and requests theen now junk device memory be copied back to the host. This test aims to determine the peak memory bandwidth for the device, which can then be used to determine absolute optimal performance of any subsequent alogrithm.
+
+In order to complete the project more benchmarks need to be written, to specifically cover algorithm optimisation cases identified in the serial analytics portion of the project. Necessary benchmarks are as follows: 
+
+\begin{itemize}
+\item Peak Memory Bandwidth
+\item Peak Map
+\item Peak Fold/Reduce
+\item Peak Scan
+\item Peak Matrix Multiplication
+\item Peak Depth first Graph Traversal
+\end{itemize}
+
+Upon completion of these benchmarks this requirement will have been completed, interfacing and using the results of these benchmarks are a seperate requirement.
