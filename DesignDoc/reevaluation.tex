@@ -26,7 +26,7 @@ As described earlier, the importance of developing working GPU benchmarking code
 
 This requirement relates directly to the overall aim of the project, which is described in the requirements just proceeding this. As the project currently stands there is only one working benchmark developed, it is a best case memory bandwidth test which requests on device memory, fills it with junk host memory, and requests theen now junk device memory be copied back to the host. This test aims to determine the peak memory bandwidth for the device, which can then be used to determine absolute optimal performance of any subsequent alogrithm.
 
-In order to complete the project more benchmarks need to be written, to specifically cover algorithm optimisation cases identified in the serial analytics portion of the project. Necessary benchmarks are as follows: 
+In order to complete the project more benchmarks need to be written, to specifically cover algorithm optimisation cases identified in the serial analytics portion of the project. Necessary benchmarks are as follows:
 
 \begin{itemize}
 \item Peak Memory Bandwidth
@@ -47,7 +47,7 @@ This requirement describes that the benchmarking algorithms must be utilised to 
 
 \begin{itemize}
 \item Recursive Dependent Matrix Calculations
-\item Highly Divergent Hashmap Traversal 
+\item Highly Divergent Hashmap Traversal
 \end{itemize}
 
 These problem sets seem to be readily parallelizable, however they in fact exacerbate the weaknesses of the general NVidia GPU architecture (and potentially other co-processor architectures I have not worked with). The results of these benchmarks contextualise the information derived from the code analytics portion, giving rise to more useful metrics defining best and worst case performance.
@@ -68,11 +68,26 @@ benchmark algorithms.}
 
 This requirement was covered and expanded under sections \ref{[FR.003]} and \ref{[OA.001]}
 
+\paragraph{[0A.005]}
+\textbf{The program shall provide theoretical performance metrics given a known problem class}
+
+In order to provide the best possible analytics for the serial code analysis, theoretical parallel performance must be understood, so that in situations where a GPU is not present, that relevant calculations may be undertaken to provide an estimate on the anticipated performance. Naturally actual performance and theoretical performance differ significantly for a variety of reasons, however the fundamental considerations involved in algorithm analysis can be known or reasonably estimated from which theoretical performance metrics may be provided.
+
+\paragraph{[OA.006]}
+\textbf{The program shall include known FPGA performance metrics given a known problem class}
+
+This requirement seems unlikely to be filled by the project as it currently stands. This is mainly due to the change in direction of the project since the submission of the requirements document. The original intention of the project was to provide a benchmarking suite for CPU, GPU and FPGA algorithms. Since then the project has become primrarly about the compiler analytics side, with less emphasis on the relative performances and tradeoffs between the different computing architectures. Due to the size of the project, and the direction it began to proceed, I have elected to not satisfy this requirement, and to remove it from what this project intends to achieve. Removing this requirement has provided more time for solving problems more relevant to the current and final form of this project.
 
 
+\subsection{Algorithm Analytics Development}
+As described earlier in the design document, this is the crux of my final year project. The core objective is to produce software that analyses a C algorithm description and identifies whether the algorithm described may see some benefit from being parallelised. This is extended by the other aspects of this project which in turn provide extra metrics for comparison between CPU and GPU performance. The stretch goal is to provide analysis of an existing C codebase which may contain a variety of potentially parallel algorithms within. As static code analysis is a rather large task to undertake certain decisions have been made to ensure that this project may be completed, and some of these are reflected wtihin the requirements.
 
+\subsubsection{Requirements}
 
+\paragraph{[FR.001]}
+\textbf{The program shall analyse an algorithm and produce optimisation analysis}
 
+This is the key requirement of the entire project. This requirement can not be compromised on, and as such all other requirements must relate to ensuring this requirement is met. Analysis of the algorithm is defined as static code analysis, and optimisation analysis is defined as the recognition of potentially parallelizable algorithms within the code. This is achieved through integrating with the Clang tooling, utilising the AST to perform the static analysis. The static analysis itself is primrarly concerned with matching known paraellel patterns through the AST Matcher library. 
 
 
 
