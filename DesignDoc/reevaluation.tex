@@ -21,7 +21,7 @@ As described earlier, the importance of developing working GPU benchmarking code
 
 \subsubsection{Requirements}
 
-\paragraph{[FR.003]}
+\paragraph{[FR.003]} \label{[FR.003]}
 \textbf{The program shall run developed benchmark algorithms to further analytical information.}
 
 This requirement relates directly to the overall aim of the project, which is described in the requirements just proceeding this. As the project currently stands there is only one working benchmark developed, it is a best case memory bandwidth test which requests on device memory, fills it with junk host memory, and requests theen now junk device memory be copied back to the host. This test aims to determine the peak memory bandwidth for the device, which can then be used to determine absolute optimal performance of any subsequent alogrithm.
@@ -39,7 +39,7 @@ In order to complete the project more benchmarks need to be written, to specific
 
 Upon completion of these benchmarks this requirement will have been completed, interfacing and using the results of these benchmarks are a seperate requirement.
 
-\paragraph{[OA.001]}
+\paragraph{[OA.001]} \label{[OA.001]}
 \textbf{The program shall run custom benchmark algorithms to identify GPU
 performance.}
 
@@ -57,8 +57,16 @@ These problem sets seem to be readily parallelizable, however they in fact exace
 
 After careful consideration this requirement has been relaxed as it is far too strict. When writing the requirements analysis I was not as familiar with the CUDA toolchain as I am at this point of my project, and as such it is now apparent that writing Compute Capability agnostic code is a very difficult feat. In order to best satisfy the other requirements of this project I shall be limiting benchmarking code to work on CUDA capable devices of Compute Capability 3.5 and above. This compute capability was chosen as the capabilities of CUDA Cards differ significantly pre and post Compute Capability 3. This revision of the initial requirement shall save significant time and effort from being wasted in localisation and highly technical activities that benefit the overall project very little.
 
+\paragraph{[OA.003]}
+\textbf{The program shall provide comparative CPU performance metrics.}
 
+This requirement remains as it was initially written, there is no reason why the project should not continue to include a comparison between parallel GPU benchmarks and the relevant serial CPU implementation. This information will be used within the analytics framework.
 
+\paragraph{[OA.004]}
+\textbf{The program shall provide a number of different problem class
+benchmark algorithms.}
+
+This requirement was covered and expanded under sections \ref{[FR.003]} and \ref{[OA.001]}
 
 
 
