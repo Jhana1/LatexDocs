@@ -16,7 +16,7 @@
 %	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
 %----------------------------------------------------------------------------------------
 
-\documentclass[12pt]{article} % Default font size is 12pt, it can be changed here
+\documentclass[12pt,usenames,dvipsnames]{article} % Default font size is 12pt, it can be changed here
 
 \usepackage{geometry} % Required to change the page size to A4
 \geometry{a4paper} % Set the page size to be A4 as opposed to the default US Letter
@@ -30,6 +30,8 @@
 
 \usepackage{hyperref}
 
+\usepackage{gantt}
+\usepackage{pdflscape}
 \linespread{1.2} % Line spacing
 
 %\setlength\parindent{0pt} % Uncomment to remove all indentation from paragraphs
@@ -44,10 +46,10 @@
 
 %--------------------------------------------------------------------------------------
 %       CODE SNIPPETS
-%--------------------------------------------------------------------------------------
+%--------------------------------------------s------------------------------------------
 
 \usepackage{listings} % Required for inserting code snippets
-\usepackage[usenames,dvipsnames]{color} % Required for specifying custom colors and referring to colors by name
+%\usepackage[usenames,dvipsnames]{color} % Required for specifying custom colors and referring to colors by name
 
 \definecolor{DarkGreen}{rgb}{0.0,0.4,0.0} % Comment color
 \definecolor{highlight}{RGB}{250,220,150} % Code highlight color
@@ -79,7 +81,7 @@ tabsize=2, % Number of spaces per tab in the code
 }
 
 % Create a command to cleanly insert a snippet with the style above anywhere in the document
-\newcommand{\insertcode}[2]{\begin{itemize}\item[]\lstinputlisting[caption=#2,label=#1,style=Style1]{#1}\end{itemize}} % The first argument is the script location/filename and the second is a caption for the listing
+%\newcommand{\insertcode}[2]{\begin{itemize}\item[]\lstinputlisting[caption=#2,label=#1,style=Style1]{#1}\end{itemize}} % The first argument is the script location/filename and the second is a caption for the listing
 
 %%%%% EXAMPLE USE CASE %%%%%
 % The first argument is the script location/filename and the second is a caption for the listing
@@ -89,6 +91,27 @@ tabsize=2, % Number of spaces per tab in the code
 %----------------------------------------------------------------------------------------
 
 
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=c++,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle=\footnotesize\ttfamily,
+  %basicstyle={\small\ttfamily},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=4
+}
 
 
 
@@ -162,6 +185,9 @@ Dr. David \textsc{Boland} % Supervisor's Name
 \pagebreak
 
 \input{currentposition}
+\pagebreak
+
+\input{timeline}
 \pagebreak
 
 \end{document}
