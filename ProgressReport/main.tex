@@ -22,6 +22,7 @@
 \geometry{a4paper} % Set the page size to be A4 as opposed to the default US Letter
 
 \usepackage{graphicx} % Required for including pictures
+\usepackage{rotating}
 
 \usepackage{float} % Allows putting an [H] in \begin{figure} to specify the exact location of the figure
 \usepackage{wrapfig} % Allows in-line images such as the example fish picture
@@ -31,7 +32,6 @@
 \usepackage{hyperref}
 
 \usepackage{gantt}
-\usepackage{pdflscape}
 \linespread{1.2} % Line spacing
 
 %\setlength\parindent{0pt} % Uncomment to remove all indentation from paragraphs
@@ -63,6 +63,7 @@ breaklines=true, % Automatic line breaking (prevents code from protruding outsid
 captionpos=b, % Sets the caption position: b for bottom; t for top
 commentstyle=\usefont{T1}{pcr}{m}{sl}\color{DarkGreen}, % Style of comments within the code - dark green courier font
 deletekeywords={}, % If you want to delete any keywords from the current language separate them by commas
+\usepackage{pdflscape}
 %escapeinside={\%}, % This allows you to escape to LaTeX using the character in the bracket
 firstnumber=1, % Line numbers begin at line 1
 frame=single, % Frame around the code box, value can be: none, leftline, topline, bottomline, lines, single, shadowbox
@@ -134,7 +135,7 @@ tabsize=2, % Number of spaces per tab in the code
 \textsc{\large Final Year Project (ECE4093)}\\[0.5cm] % Minor heading such as course title
 
 \HRule \\[0.4cm]
-{ \huge \bfseries Design Document}\\[0.4cm] % Title of your document
+{ \huge \bfseries Progress Report}\\[0.4cm] % Title of your document
 \HRule \\[1.5cm]
 
 \begin{minipage}{0.4\textwidth}
@@ -178,9 +179,6 @@ Dr. David \textsc{Boland} % Supervisor's Name
 \input{description}
 \pagebreak
 
-\input{reevaluation}
-\pagebreak
-
 \input{projectstatus}
 \pagebreak
 
@@ -190,7 +188,6 @@ Dr. David \textsc{Boland} % Supervisor's Name
 \input{timeline}
 \pagebreak
 
-\input{Appendix}
 \end{document}
 
 

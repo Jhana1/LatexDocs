@@ -1,0 +1,25 @@
+%!TEX root = ./main.tex
+%----------------------------------------------------------------------------------------
+%       CURRENT POSITION REVIEW	
+%----------------------------------------------------------------------------------------
+
+\section{Current Position Review}
+
+This section aims to look at what has been achieved and how what has been done so far sets up the rest of the project for completion.
+
+\subsection{Completed Tasks}
+\subsubsection{Identification of Simple Parallel Patterns}
+This is the initial requirement of the code analyser aspect of this project. Currently simple parallel patterns such as map operations have been successfully completed. This is done utilising the Clang libtooling library, using ASTMatchers and the resulting callback.
+
+\subsubsection{Inital Scaffolding of GPU Benchmarking Code}
+The current scaffolding of the GPU Benchmarking code provides a benchmarking class which defines the interface by which other aspects of this project must interface with the benchmarking code. Currently the interface is:
+
+\subsubsection{Basic GPU Peak Memory Performance Benchmark}
+The current peak memory performance benchmark is an incredibly simple memory test, the base benchmark is merely allocates memory on the device, copies memory from the host to the device, performs a no-op on the device and copies the memory back from the device to the host. This is all timed in order to calculate a peak theoretical memory bandwidth. The benchmark was written before the current version of the benchmark object existed, and as such it does not have any dynamic reponse to changing structure. It is merely a proof of concept for the peak memory performance benchmark.
+
+\subsubsection{Scaffolding of Performance Metric Reporting}
+By utilising the OCLint tool, the rule and reporter interface has already been written. There are a few alterations that still need to be undertaken, as the nature of the reports is somewhat different between the original intention of OCLint, and what I am doing, however the overall scaffolding and relationship between analysis and report is finished, and quite robust.
+
+\subsubsection{Capable of Analysing Arbitrarily Large C Codebases}
+As the static code analyser uses the Clang libtooling, if the codebase being run on is capable of being built by clang, then it is possible for the codebase to be analysed CAPA. This is due to the heavy lifting being done by the clang compiler, and the tool hooking in only at the AST stage per compilation unit.
+
