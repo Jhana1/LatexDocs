@@ -8,51 +8,49 @@ Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: references.bib
-Warning--I didn't find a database entry for "nagrajan2011accelerating"
 -- IEEEtran.bst version 1.13 (2008/09/30) by Michael Shell.
 -- http://www.michaelshell.org/tex/ieeetran/bibtex/
 -- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
 
 Done.
-You've used 9 entries,
+You've used 15 entries,
             4039 wiz_defined-function locations,
-            871 strings with 9099 characters,
-and the built_in function-call counts, 7273 in all, are:
-= -- 576
-> -- 175
-< -- 67
-+ -- 96
-- -- 29
-* -- 363
-:= -- 1073
-add.period$ -- 20
-call.type$ -- 9
-change.case$ -- 9
-chr.to.int$ -- 153
-cite$ -- 9
-duplicate$ -- 507
-empty$ -- 575
-format.name$ -- 36
-if$ -- 1663
+            897 strings with 9667 characters,
+and the built_in function-call counts, 9935 in all, are:
+= -- 798
+> -- 207
+< -- 76
++ -- 115
+- -- 34
+* -- 480
+:= -- 1527
+add.period$ -- 32
+call.type$ -- 15
+change.case$ -- 20
+chr.to.int$ -- 171
+cite$ -- 15
+duplicate$ -- 726
+empty$ -- 813
+format.name$ -- 42
+if$ -- 2248
 int.to.chr$ -- 0
-int.to.str$ -- 9
-missing$ -- 91
-newline$ -- 54
-num.names$ -- 8
-pop$ -- 216
+int.to.str$ -- 15
+missing$ -- 138
+newline$ -- 82
+num.names$ -- 9
+pop$ -- 350
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 554
+skip$ -- 763
 stack$ -- 0
-substring$ -- 365
-swap$ -- 425
-text.length$ -- 16
+substring$ -- 423
+swap$ -- 563
+text.length$ -- 19
 text.prefix$ -- 0
 top$ -- 5
-type$ -- 9
+type$ -- 15
 warning$ -- 0
-while$ -- 36
-width$ -- 10
-write$ -- 112
-(There was 1 warning)
+while$ -- 41
+width$ -- 17
+write$ -- 173

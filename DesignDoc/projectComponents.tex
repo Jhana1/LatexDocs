@@ -1,0 +1,99 @@
+%!TEX root = ./main.tex
+%----------------------------------------------------------------------------------------
+%       CURRENT POSITION REVIEW	
+%----------------------------------------------------------------------------------------
+
+\section{Component Analysis}
+
+This section aims to provide an in depth look at what has been achieved over the life of the
+project.
+
+\subsection{Static Analyser}
+
+\subsubsection{Clang Integration}
+CAPA utilises the Clang Libtooling library in order to perform semantic static analysis of any C
+codebase. This interface provides a number of methods by which the AST may be queried in a
+programatic manner. CAPA utilises the ASTMatcher callback interface in order to provide complex
+generic and extensible traversals of the AST. The matcher interface provides a declarative API by
+which the program searches for regions which satisfy known static requirements. The interface itself
+is rather unwieldly to use directly. 
+\lstinputlisting{./Code/mapMatcher.cpp}
+As a result I created a matcher combinator library for simplification purposes.
+
+\subsubsection{ASTMatcher Combinator Library}
+In order to simplify the matchers and prevent them from becoming unmanagebly large, I designed a
+lambda based combinator library for creating complex ASTMatchers. Utilising C++14 auto lambda return type
+declarations I was able to construct a number of higher order combinators which can be combined
+together to construct more complex matchers with less ambiguity.
+\lstinputlisting{./Code/MatcherHelper.h}
+This combinator library again is easily extensible and as further needs arose I increased its
+complexity and breadth. Ultimately it provides a simpler way of interfacing with the Clang AST
+Matcher library through safer higher order functions.
+\lstinputlisting{./Code/nicemap.cpp}
+This version is clearly far simpler to understand and to modify, whilst still achieving the same
+callback results as the original version. This demonstrates the power of the Matcher Combinator
+interface.
+
+\subsubsection{Pattern Recognition}
+\paragraph{Matching}
+By utilising the OCLint tool and interface for collecting events was already mostly in place. The
+existing tool was used to identify bugs within a codebase and as such had was semi-suitable for the
+job. I extended the existing rule interface to provide further specific information pertaining to
+potential optimisations to be passed on to the reporters.
+
+\paragraph{Callback}
+
+
+\subsubsection{Benchmark Integration}
+\paragraph{JSON Parsing}
+
+\paragraph{Internal Representation}
+
+
+
+
+
+\subsubsection{Reporting}
+
+
+\subsection{Benchmarks}
+\subsubsection{Benchmark Structure}
+
+\subsubsection{Tools}
+
+\subsubsection{Implementations}
+
+\paragraph{Map}
+\subparagraph{Host}
+\subparagraph{Device}
+
+\paragraph{Reduce}
+\subparagraph{Host}
+\subparagraph{Device}
+
+\paragraph{Scan (Prefix Sum)}
+\subparagraph{Host}
+\subparagraph{Device}
+
+\paragraph{Dense Matrix Multiplication}
+\subparagraph{Host}
+\subparagraph{Device}
+
+
+\subsubsection{Typesafe CUDA primatives}
+Additionally in order to increase code re-use I've attempted to implement the concept of
+Type-Classes into CUDA C++. This allows for the single case of higher order functions such as Map,
+Reduce and Scan. This implementation utilises template meta-programming and templated type alias's
+to produce type safe higher order polymorphism within CUDA compute kernels.
+\lstinputlisting{./Code/typeclass.cpp} This code segment demonstrates typeclass instances for
+operations over both \textit{Functors} and \textit{BiFunctors}, the \textit{Functor} typeclass is
+the alias uCat, a function which accepts a single input of type T and returns a single output of
+type T. The second typeclass definition is the \textit{mCat} defition, defining the monoidal
+typeclass requirement of \textit{mConCat}. This is any function that accepts 2 inputs of type T and
+returns an output of type T. These typeclasses are then used to validate the parametric polymorphism
+of the \textit{biMapKernel}, which implements a polymorphic bimap operation, the key aspect of the
+\textit{bifunctor} typeclass, as well as the common map kernel, which is the single requirement of
+the \textit{functor} typeclass. This parametric polymorphism provides an easy to use, clear and
+concise framework from which to build larger GPU benchmarking routines, by utilising the higher
+order nature of the GPU \textit{primatives}. To summarise the category theory, this essentially
+provides a type safe way to write less code.
