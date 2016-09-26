@@ -33,7 +33,7 @@ is a clear demonstration of the benefits already being seen by optimising compil
 sequential programs into those which leverage the power of parallel computation. The LLVM optimiser
 however has some flaws which are identified by Yulei Sui, Xiaokang Fan, Hao Zhou, and Jingling Xue
 who developed Loop-oriented array and field sensitive Pointer Analysis (LPA) in order to combat the
-sub-optimal performance of the LLVM auto-vectoriser \cite{sui2016loop}. The authors identified alias
+suboptimal performance of the LLVM auto-vectoriser \cite{sui2016loop}. The authors identified alias
 analysis as being a potential cause of the LLVM compiler missing optimisation opportunities. They
 created an analysis framework around both flow-insensitive and flow-sensitive pointer construct. By
 hooking into the LLVM’s partial SSA form they exploited the reduced semantic complexity to
@@ -46,7 +46,7 @@ architectures have the capacity for massively parallel computation. The typical 
 leverage SIMD concepts containing thousands of simple computational cores with high memory
 bandwidth. Thus whilst automatic vectorisation has substantial performance potential, most current
 literature is focused on continuing to improve computational efficiency of host bound programs,
-rather than looking towards exploiting the massively parallel computational power of modern GPUs.
+rather than looking towards exploiting the massively parallel computational power of modern GPU’s.
 
 \subsection{Parallelism}
 General Purpose GPU programming seeks to exploit the parallel performance characteristics of the GPU
@@ -62,7 +62,7 @@ operator form a semigroup (The set of data must be closed under an associative b
 their example the set is of integers, and the operator is addition, which holds these properties.
 The concept of parallel primitive operations is further expanded by \cite{nagarajan2011accelerating}
 which provides terminology to describe parallel patterns for both computation and communication.
-Although this research focuses on parallelism within FPGAs the primitive operations are examples of
+Although this research focuses on parallelism within FPGA’s the primitive operations are examples of
 fundamentally parallel operations, exposing high levels of optimisation potential through SIMD
 data-paths. The authors look to extract performance from their FPGA implementation of potentially
 parallelisable algorithms; their key focus is on the Parzen window technique of Gaussian PDF
@@ -79,7 +79,7 @@ in minimal code re-use. The current solution to the code reuse problem is the in
 parallel algorithms within the C++ STL as well as CUDA based libraries such as CuBLAS and Thrust,
 which aim to provide programmers with a foundation from which to build larger programs, without
 being forced into having a full understanding of programming on a GPU. Given the power and
-performance characteristics of GPUs there is a great incentive to move computationally expensive
+performance characteristics of GPU’s there is a great incentive to move computationally expensive
 algorithms onto these devices, currently however there are many roadblocks preventing individuals
 and organisations from exploiting the potential improvements within their codebase, the high barrier
 to entry can be difficult to overcome, especially with the limited capabilities of identifying how

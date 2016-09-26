@@ -243,12 +243,16 @@ point of view.
 \paragraph{[CA.008]}
 \textbf{Analyse existing codebases within tagged regions}
 
-This requirement has been conditionally met. Tags are not visible within the clang AST and as such I
-was not able to reliably analyse only subsections of a codebase. The final result of this was to
-allow the application to analyse as many files as dictated by the user. The final generated report
-is then organised by file and line number before being presented to the user. Whilst it is
-potentially feasible to develop this aspect, a decision was made not to pursue it due to the limited
-utility it would generate.
+This requirement has been conditionally met. Tags are not always visible at every node within the
+clang AST and as such I was not able to reliably analyse only subsections of a codebase, rather the
+user has to select which functions within the codebase they do not want to be reported. The program
+still analyses these regions of the codebase, however upon detecting an ignore clause in the parent
+function comment declaration, the analysis for that match terminates and the next matcher begins.
+This allows the developer to selectively remove false positives or known regions where more
+computational speed is not necessary. So whilst this condition was originally to only analyse within
+tagged regions, it has been changed to tag only regions which have not been tagged as:
+{\lstinline{///CAPA:IGNORE}}
+
 
 \subsection{Optimisation Analytics Development}
 

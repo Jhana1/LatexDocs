@@ -1,0 +1,116 @@
+%!TEX root = ./main.tex
+%----------------------------------------------------------------------------------------
+% PARALLEL COMPUTATION
+%----------------------------------------------------------------------------------------
+
+\section{Parallel Computation} % Major section
+Parallel computing is a type of computation whereby many operations are performed simultaneously, as
+opposed to serial computing where only one operation occurs at a time \cite{wikiRef1}. Parallel
+computing has been used as a high performance computing technique for some time, with recent
+physical limitations on serial processors forcing further development in the parallel world.
+Modern parallel computing focuses primarily on extracting maximum performance from data level
+parallelism, the process by which independent processors act on a distributed load of data, often
+performing SIMD (Signle Instruction Multiple Data) operations. 
+
+\subsection{SIMD}
+SIMD describes a computation structure by which many processing units execute the same instruction
+on multiple data in parallel. SIMD allows for significant computation speed improvements over
+traditional serial data processing by operating on multiple data at once. The theoretical speed
+improvements a SIMD processor has over a traditional serial processor can be described by: $ speedup \propto
+min\left(N_{processing\_units}, N_{data}\right) $. In many computing environments $N_{data}$ is
+significantly larger than $N_{processing\_units}$ simplifying the relationship to merely $ speedup
+\propto N_{processing\_units}$. Thus it is clear that with increasing number of processing units the
+commputation speed increases. As a result of this relationship devices have been developed which can
+exploit this fact, most modern CPU's include some form of Vectorised SIMD instruction set. Advanced
+Vector Extensions (AVX) are an extension to the x86 instruction set which are supported by both AMD
+and Intel, which utilises SIMD to improve processor performance for highly parallel workloads. GPU's
+however are far more suited to the task of performing SIMD operations as they often have orders of
+magnitude more processing units than comporable CPU's.
+
+\subsection{Parallel Limitations} 
+One of the largest limitations that concerns parallel computing is data dependency. A data
+dependency is a situation where operations in the algorithm require data from earlier in the
+algorithm in order to continue processing. An example situation would be:
+\lstinputlisting{./Code/DataDependency.cpp} in this case we have two examples of data dependency, in
+the first case we are trying to normalise the vector by subtracting the mean. This is an example of
+a data dependency where a SIMD operation relies on prior information, in this case this will not
+impact our ability to perform the operations simultaneously, as at no point does the input
+information rely on potential changes to the output information as a side-effect of this
+computation. However in the second case, where we re-assign the vector values, there is a data
+dependency that prevents a Parallel Implimentation from being naivly implemented.
+\lstinline{vec[vec[i]]} has a dependency on prior operations performed to \lstinline{vec[]} which
+prevents us from processing all elements of this loop simultaneously. There are however classes of
+problems which may be simply parallelised, these are known as Parallel Primitives.
+
+\subsection{Parallel Primitives}
+Parallel Primitives, or Vector Primitives are operations over a collection of values, there are
+three operations which constitute these primitives:
+\begin{itemize}
+    \item Map
+    \item Reduce
+    \item Scan (Prefix Networks)
+\end{itemize}
+These operations all rely on the ability to reformat the problem specification to utilise a
+computation graph for simultanous calculation.
+
+
+\subsubsection{Map}
+\lstinputlisting{./Code/ExampleMap.cpp}
+Map operations are the simplest of the three Parallel Primitives, they are simply operations
+describing a one to one mapping from some input value to some output value, Mapped over a set of
+values. Map operations have some restrictions upon them about what is
+considered valid inputs. Operators must have an arity of 1 and the operator must be stateless. If
+these rules are held then the system will be by definition an LTI system, allowing for a trivial
+SIMD implementation of the resulting transformation. If however the input arguments do not satisfy
+these requirements, then the resulting operation will not be well formed, and in most
+implementations the result will be ill-defined. Map operations have a work complexity of $ O(N) $
+for CPU implementations and $ O(N/k) $ for parallel implementations where $ k $ is the number of
+computational cores available.
+
+
+\subsubsection{Reduce}
+\lstinputlisting{./Code/ExampleReduce.cpp}
+Reductions are the next simplest of the Parallel Primitives, they are a mapping from many input
+values to one output value. Input argument restrictions on Reductions are more strict than on Map
+operations. Reductions require that the operator and data form a monoid; the Operator must be a
+binary associative operator, and the set of input values must be closed under that operator. A
+simple example would be addition, over the Reals. Like with the Map primitive, if the input
+restrictions are not met, then the operation will not be well formed. Reduce operations have a work
+complexity of $ O(N) $ for CPU implementations and $ O(N) $ for parallel implemetations, where the
+Step Complexity is $ O(log N) $. Reductions form a work-efficient operation.
+
+Additional optimisation can occur if the operator is not only associative but also commutative,
+whereby the gathering of values may occur out of typical oder providing potentially better constant
+factors.
+
+\includegraphicscaption{./Pictures/parallelSerial.png}{Serial vs Parallel Sum Reduction Tree}
+
+\subsubsection{Scan}
+\lstinputlisting{./Code/ExampleScan.cpp}
+Scans or Prefix Networks are the most complext of the Parallel Primitives. Scans are a mapping from
+many input values to many output values. They are a direct generelisation of a Reduction, where the
+cumulative intermediate values are maintained. Scan operations require the same restrictions for
+Reductions hold. Scans are not trivially parallelisable, as there is a data dependency on
+prior calculated values, however there are algorithms for performing parallel Scan operations whilst
+still retaining work efficiency (a work complexity of $ O(N) $) \cite{ScanOp}.
+
+\subsubsection{Linear Algebra}
+TODO: THIS (NOT A PRIMITIVE, BLAS HOWEVER IS VERY PARALLELISABLE)
+
+\subsection{GPU Parallelism}
+GPUs typically consist of thousands of processing cores, this is significantly greater than the
+common 4-8 cores found on modern CPUs. GPU architecture relies on numerous simple processing units
+which engage in SIMD, leveraging the relationship between computational cores and work efficiency.
+
+\includegraphicscaption{./Pictures/cpu_vs_gpu.png}{CPU vs GPU Architecture \cite{inzunzaperformance}}
+
+Efficient GPU programming like efficient CPU programming requires specialised knowledge, both of the
+target hardware, and of the paradigm. GPU programming is able to exploit the massively parallel
+compute archictecture on these devices. Coupling fast global memory, high performance shared memory
+and numerous local registers GPUs provide all the requirements for exploiting SIMD in a massively
+parallel space.
+
+
+%------------------------------------------------
+
+

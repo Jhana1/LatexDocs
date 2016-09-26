@@ -1,9 +1,9 @@
 %!TEX root = ./main.tex
 %----------------------------------------------------------------------------------------
-%       CURRENT POSITION REVIEW	
+%       PROJECT COMPONENTS	
 %----------------------------------------------------------------------------------------
 
-\section{Component Analysis}
+\section{Project Components}
 
 This section aims to provide an in depth look at what has been achieved over the life of the
 project.
@@ -12,8 +12,14 @@ project.
 
 \subsubsection{Clang Integration}
 CAPA utilises the Clang Libtooling library in order to perform semantic static analysis of any C
-codebase. This interface provides a number of methods by which the AST may be queried in a
-programatic manner. CAPA utilises the ASTMatcher callback interface in order to provide complex
+codebase. The Clang compiler exposes a public library for interfacing with their intermediate
+compilation stage representations of the original source. For the purpose of this project it was
+decided to use the exposed AST interface in order to perform the static analysis. Clang provides a
+number of methods for working with the AST, namely the Visitor and Matcher interfaces. The Visitor
+library utilises the visitor pattern, and a callback is undertaken upon visiting any node which
+meets the requirements set forth in the visitor module. This is a useful tool, however it is not as
+powerful as the Matcher interface, which allows complex grammar's to be generated for highly
+specific, tailored matches. CAPA utilises the ASTMatcher callback interface in order to provide complex
 generic and extensible traversals of the AST. The matcher interface provides a declarative API by
 which the program searches for regions which satisfy known static requirements. The interface itself
 is rather unwieldly to use directly. 
@@ -24,34 +30,71 @@ As a result I created a matcher combinator library for simplification purposes.
 In order to simplify the matchers and prevent them from becoming unmanagebly large, I designed a
 lambda based combinator library for creating complex ASTMatchers. Utilising C++14 auto lambda return type
 declarations I was able to construct a number of higher order combinators which can be combined
-together to construct more complex matchers with less ambiguity.
+together to construct more complex matchers with less ambiguity. A simple example:
 \lstinputlisting{./Code/MatcherHelper.h}
 This combinator library again is easily extensible and as further needs arose I increased its
 complexity and breadth. Ultimately it provides a simpler way of interfacing with the Clang AST
 Matcher library through safer higher order functions.
+This combinator library would not be possible with earlier versions of C++, as it has a reliance on
+auto return types to prevent template instantiation stack errors. The AST Matcher interface heavily
+relies on template meta-programming in order to ensure a clean typesafe interface, the combinator
+library I designed extends that, yet still maintains complete statically verifiable interfaces that
+are type correct.
 \lstinputlisting{./Code/nicemap.cpp}
 This version is clearly far simpler to understand and to modify, whilst still achieving the same
 callback results as the original version. This demonstrates the power of the Matcher Combinator
-interface.
+interface, as well as the ease of use.
 
 \subsubsection{Pattern Recognition}
 \paragraph{Matching}
-By utilising the OCLint tool and interface for collecting events was already mostly in place. The
-existing tool was used to identify bugs within a codebase and as such had was semi-suitable for the
-job. I extended the existing rule interface to provide further specific information pertaining to
-potential optimisations to be passed on to the reporters.
+By utilising the OCLint tool the scaffoling around the libtooling had already been provided,
+simplifying the interface between pattern matching and reporting. There was still a significant
+rewrite of most of the interface, however the heirachy and design philosophy was clear. The actual
+matching of potentially parallel sections of code relies on a few assumptions about the nautre of
+algorithms which may be efficiently implemented on a GPU.
+\begin{itemize}
+    \item Little prior data dependency
+    \item A large number of elements require processing
+    \item Minimal control flow is required
+\end{itemize}
+Given these assumptions, in combination with the knowledge of problem spaces that the GPU is highly
+performant in:
+\begin{itemize}
+    \item Map Operations
+    \item Reduce Operations
+    \item Scan (Prefix Sum) Operations
+    \item Matrix Operations
+\end{itemize}
+it became clear that identifying components of the codebase that exhibited similarities to these
+cases would be important. 
 
 \paragraph{Callback}
-
+Even though the matcher can be highly specific, there is still the requirement of the callback. The
+callback is responsible for identifying whether the matched pattern is actually representative of
+the expected pattern, or whether it is infact a potential false positive. Additionally the callback
+is responsible for logging the detected pattern as well as relevant information, such as the number
+of elements being manipulated, for use by the reporter module. This will be explained in more detail
+in section \ref{detailedExample}.
 
 \subsubsection{Benchmark Integration}
+A key aspect of CAPA is the integration of the benchmarking component with the detected outcomes to
+provide more detailed performance statistics during the reporting phase.
+
 \paragraph{JSON Parsing}
+CAPA relies on performance benchmarks being generated by the benchmarking tool, this reports back
+information in a JSON form which is read and parsed by CAPA into a useable form. The JSON for Modern
+C++ library was used \cite{JSON}. JSON was chosen as it is a human readable format which is
+supported by a large number of tools, additionally the benchmarking libary utilised provided a JSON
+exporter, simplifying the integration of the two tools.
 
 \paragraph{Internal Representation}
-
-
-
-
+Internally the benchmarking information relies on this construct:
+\lstinputlisting{./Code/benchmarkset.h}
+which simply provides a simple concise manner in which to interface with STL containers for the
+purpose of passing around the parsed benchmarking information. The BenchmarkSet object is
+responsible for handling all requests for benchmark information, including providing theoreticals if
+no benchmark JSON file exists. This information is then used by the reporter module to provide the
+end user with further information about potential optimisations within their analysed codebase.
 
 \subsubsection{Reporting}
 

@@ -107,4 +107,28 @@ C.~Woolley, ``High-productivity cuda programming,'' 2013. [Online]. Available:
   \url{http://on-demand.gputechconf.com/gtc/2013/presentations/S3008-High-Productivity-CUDA-Programming.pdf}
 \BIBentrySTDinterwordspacing
 
+\bibitem{wikiRef1}
+\BIBentryALTinterwordspacing
+G.~S. Almasi, \emph{Highly Parallel Processing (The Benjamin/Cummings series in
+  computer science and engineering)}.\hskip 1em plus 0.5em minus 0.4em\relax
+  Benjamin-Cummings Publishing Co.,Subs. of Addison Wesley Longman,US, 1987.
+  [Online]. Available:
+  \url{http://www.amazon.com/Parallel-Processing-Benjamin-Cummings-engineering/dp/0805301771%3FSubscriptionId%3D0JYN1NVW651KCA56C102%26tag%3Dtechkie-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0805301771}
+\BIBentrySTDinterwordspacing
+
+\bibitem{ScanOp}
+\BIBentryALTinterwordspacing
+M.~Harris, ``Parallel prefix sum (scan) with cuda,'' 2007. [Online]. Available:
+  \url{http://www.eecs.umich.edu/courses/eecs570/hw/parprefix.pdf}
+\BIBentrySTDinterwordspacing
+
+\bibitem{inzunzaperformance}
+O.~Inzunza-Monreal, ``Performance of parallel processing on processing units.''
+
+\bibitem{JSON}
+\BIBentryALTinterwordspacing
+``Json for modern c++,'' 2016, license: MIT. [Online]. Available:
+  \url{https://nlohmann.github.io/json/}
+\BIBentrySTDinterwordspacing
+
 \end{thebibliography}
