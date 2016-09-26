@@ -32,6 +32,8 @@
 
 \usepackage{gantt}
 \usepackage{pdflscape}
+\usepackage{pdfpages}
+\usepackage{setspace}
 \linespread{1.2} % Line spacing
 
 %\setlength\parindent{0pt} % Uncomment to remove all indentation from paragraphs
@@ -58,6 +60,7 @@
 language=C++, % Detects keywords, comments, strings, functions, etc for the language specified
 backgroundcolor=\color{highlight}, % Set the background color for the snippet - useful for highlighting
 basicstyle=\footnotesize\ttfamily, % The default font size and style of the code
+aboveskip={-40ex},
 breakatwhitespace=false, % If true, only allows line breaks at white space
 breaklines=true, % Automatic line breaking (prevents code from protruding outside the box)
 captionpos=b, % Sets the caption position: b for bottom; t for top
@@ -80,6 +83,7 @@ stringstyle=\color{Purple}, % Strings are purple
 tabsize=2, % Number of spaces per tab in the code
 }
 
+
 % Create a command to cleanly insert a snippet with the style above anywhere in the document
 %\newcommand{\insertcode}[2]{\begin{itemize}\item[]\lstinputlisting[caption=#2,label=#1,style=Style1]{#1}\end{itemize}} % The first argument is the script location/filename and the second is a caption for the listing
 
@@ -101,7 +105,7 @@ tabsize=2, % Number of spaces per tab in the code
   belowskip=3mm,
   showstringspaces=false,
   columns=flexible,
-  basicstyle=\footnotesize\ttfamily,
+  basicstyle=\linespread{0.8}\footnotesize\ttfamily,
   %basicstyle={\small\ttfamily},
   numbers=left,
   numberstyle=\tiny\color{gray},
@@ -109,8 +113,8 @@ tabsize=2, % Number of spaces per tab in the code
   commentstyle=\color{dkgreen},
   stringstyle=\color{mauve},
   breaklines=true,
-  breakatwhitespace=true,
-  tabsize=4
+  breakatwhitespace=false,
+  tabsize=2
 }
 
 % MY MACROS
@@ -161,7 +165,7 @@ Dr. David \textsc{Boland} % Supervisor's Name
 
 {\large \today}\\[3cm] % Date, change the \today to a set date if you want to be precise
 
-%\includegraphics{Logo}\\[1cm] % Include a department/university logo - this will require the graphicx package
+%\includegraphics[width=8cm]{./Pictures/Logo.eps}\\[1cm] % Include a department/university logo - this will require the graphicx package
 
 \vfill % Fill the rest of the page with whitespace
 

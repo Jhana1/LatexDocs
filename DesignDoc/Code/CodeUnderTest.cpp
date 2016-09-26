@@ -3,34 +3,34 @@
 #include <time.h>
 #include <math.h>
 
-/// CAPA:IGNORE
-void random_fill(float *starting_vec, size_t size) {
+///CAPA:IGNORE
+void random_fill(float *starting_vec, size_t size){
     for (size_t i = 0; i < size; ++i)
         starting_vec[i] = (float) rand(); 
 }
 
-/// CAPA:IGNORE
-void reshape2mat(float *in_vec, float *out_vec[], size_t dim) {
+/** This Function is reponsible for reshaping a vector
+ * into a matrix.
+ * CAPA:IGNORE
+ */
+void reshape2mat(float *in_vec, float *out_vec[], size_t dim){
     for (size_t i = 0; i < dim; ++i)
         for (size_t j = 0; j < dim; ++j)
             out_vec[i][j] = in_vec[i*dim + j];
 }
 
-void reshape2vec(float *out_vec, float *in_mat[], size_t dim) {
+void reshape2vec(float *out_vec, float *in_mat[], size_t dim){
     for (size_t i = 0; i < dim; ++i)
         for (size_t j = 0; j < dim; ++j)
             out_vec[i*dim + j] = in_mat[i][j];
 }
 
-void mmult(float **A, float **B, float **C, size_t dim) {
-    for (size_t i = 0; i < dim; ++i)
-        for (size_t j = 0; j < dim; ++i)
-            for (size_t k = 0; k < dim; ++i)
-                C[i][j] += A[i][k] * B[k][j];
-} 
+/// CAPA:IGNORE
+void mmult(float **A, float **B, float **C, size_t dim);
 
-/// Test example Case.
-int main() {
+int main()
+{
+    // Toy Example for Test example Case.
     const size_t ELEMS = 1000*1000;
     float starting_vec[ELEMS];
     time_t t;
@@ -39,7 +39,7 @@ int main() {
     random_fill(starting_vec, ELEMS);
     
     // Divide all points by 2 and add 4 for later stage
-    for (size_t i = 0; i < ELEMS; ++i) {
+    for (size_t i = 0; i < ELEMS; ++i){
         starting_vec[i] /= 2;
         starting_vec[i] += 4;
     }
@@ -53,7 +53,7 @@ int main() {
     float cum_sum[ELEMS];
     cum_sum[0] = starting_vec[0]/k;
     for (size_t i = 1; i < ELEMS; i++)
-        cum_sum[i] = starting_vec[i]/ELEMS + cum_sum[ELEMS-1];
+        cum_sum[i] = starting_vec[i]/ELEMS + cum_sum[i-1];
 
     // Prepare for and perform Matrix Mult
     const size_t dim = sqrt(ELEMS);
@@ -71,4 +71,11 @@ int main() {
             k = k + cum_sum[i + 1 - 1];
 
     return k;
+}
+
+void mmult(float **A, float **B, float **C, size_t dim){
+    for (size_t i = 0; i < dim; ++i)
+        for (size_t j = 0; j < dim; ++i)
+            for (size_t k = 0; k < dim; ++i)
+                C[i][j] += A[i][k] * B[k][j];
 }
