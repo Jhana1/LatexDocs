@@ -4,8 +4,52 @@
 %----------------------------------------------------------------------------------------
 
 \section{Clang Integration} % Major section
+CAPA utilises the Clang Libtooling library in order to perform semantic static analysis of any C
+codebase, via a hook into the clang frontend action.
+
+\subsection{Clang Compilation}
+Clang is the C frontend of the llvm project, and as such it compiles source code into llvm
+intermediate representation, rather than directly to ASM. This allows Clang to target a common
+language leveraging the llvm compiler to perform the final compilation to a native binary. A core
+tenant of the Clang toolset is that Clang is more than just a Compiler, it also a library, which
+allows for third party individuals to use and extend the Clang framework in a variety of ways.
+\cite{clangFeatures}
+The Clang frontend compilation phase is a 4 step process, where Source code is lexed to tokens,
+parsed into an AST for programatic manipulation. Semantic Analysis is performed on the AST to
+identify standards compilance and enforce some optimisations, before being process by the Code
+Generator which exports LLVM IR. Each of these phases in the frontend action is exposed via a public
+library which can be utilised by third party tools.
+
+\subsection{Benefits of Clang}
+Clang provides a number of benefits over rolling your own source code analyser. Primarily Clang is
+one of the most used C language compilers in the world, it is well maintained, well documented,
+standards compliant and provides first class library support at most levels of compilation. Using
+existing tooling for the heavy lifting of the project allowed for far more time to be invested in
+further developing the project, rather than scaffolding the basic fundamentals. Using the Clang
+libraries also allows for expansion in the future to parsing more than just C files, there is
+potential to parse any file compilable by Clang, from C++, Obj-C and from Clang4.0 onwards Cuda-C
+\cite{clangFeatures}.
+
+\subsection{Integrating CAPA}\label{integrating_capa}
+The Clang compiler exposes a public library for interfacing with their intermediate
+compilation stage representations of the original source. For the purpose of this project it was
+decided to use the exposed AST interface in order to perform the static analysis. Clang provides a
+number of methods for working with the AST, namely the Visitor and Matcher interfaces. The Visitor
+library utilises the visitor pattern, and a callback is undertaken upon visiting any node which
+meets the requirements set forth in the visitor module. This is a useful tool, however it is not as
+powerful as the Matcher interface, which allows complex grammars to be generated for highly
+specific, tailored matches. CAPA utilises the ASTMatcher callback interface in order to provide complex
+generic and extensible traversals of the AST. 
+
 \includegraphicscaption{./Pictures/ClangHook.png}{CAPA Hook-In}
-TODO: THIS
+
+As CAPA is a fork of OCLint \cite{oclint} the scaffolding around the Clang integration was already
+provided. CAPA accepts compile flags via the command line which are passed through to the existing
+Clang compilation libraries which engage in the frontend action. CAPA hooks into the compilation
+phase and provides requests after the parser has constructed the AST. At this point the matcher
+interface begins to operate on the internal AST, wherein CAPA begins to analyse the provided source
+files.
+
 %------------------------------------------------
 
 

@@ -15,45 +15,45 @@ Warning--empty journal in inzunzaperformance
 Warning--empty year in inzunzaperformance
 
 Done.
-You've used 19 entries,
+You've used 21 entries,
             4039 wiz_defined-function locations,
-            917 strings with 10369 characters,
-and the built_in function-call counts, 11297 in all, are:
-= -- 902
-> -- 220
+            924 strings with 10559 characters,
+and the built_in function-call counts, 11949 in all, are:
+= -- 953
+> -- 222
 < -- 76
-+ -- 122
++ -- 124
 - -- 37
-* -- 533
-:= -- 1783
-add.period$ -- 40
-call.type$ -- 19
-change.case$ -- 24
+* -- 558
+:= -- 1899
+add.period$ -- 44
+call.type$ -- 21
+change.case$ -- 27
 chr.to.int$ -- 171
-cite$ -- 21
-duplicate$ -- 843
-empty$ -- 960
+cite$ -- 23
+duplicate$ -- 902
+empty$ -- 1029
 format.name$ -- 45
-if$ -- 2540
+if$ -- 2680
 int.to.chr$ -- 0
-int.to.str$ -- 19
-missing$ -- 162
-newline$ -- 100
+int.to.str$ -- 21
+missing$ -- 175
+newline$ -- 110
 num.names$ -- 12
-pop$ -- 426
+pop$ -- 470
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 872
+skip$ -- 924
 stack$ -- 0
-substring$ -- 428
-swap$ -- 620
+substring$ -- 432
+swap$ -- 649
 text.length$ -- 19
 text.prefix$ -- 0
 top$ -- 5
-type$ -- 19
+type$ -- 21
 warning$ -- 2
 while$ -- 44
-width$ -- 21
-write$ -- 209
+width$ -- 23
+write$ -- 228
 (There were 2 warnings)

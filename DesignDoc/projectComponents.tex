@@ -13,18 +13,12 @@ project.
 \subsubsection{Clang Integration}
 CAPA utilises the Clang Libtooling library in order to perform semantic static analysis of any C
 codebase. The Clang compiler exposes a public library for interfacing with their intermediate
-compilation stage representations of the original source. For the purpose of this project it was
-decided to use the exposed AST interface in order to perform the static analysis. Clang provides a
-number of methods for working with the AST, namely the Visitor and Matcher interfaces. The Visitor
-library utilises the visitor pattern, and a callback is undertaken upon visiting any node which
-meets the requirements set forth in the visitor module. This is a useful tool, however it is not as
-powerful as the Matcher interface, which allows complex grammar's to be generated for highly
-specific, tailored matches. CAPA utilises the ASTMatcher callback interface in order to provide complex
-generic and extensible traversals of the AST. The matcher interface provides a declarative API by
-which the program searches for regions which satisfy known static requirements. The interface itself
-is rather unwieldly to use directly. 
-\lstinputlisting{./Code/mapMatcher.cpp}
-As a result I created a matcher combinator library for simplification purposes.
+compilation stage representations of the original source. For the purpose of this project as
+described in section \ref{integrating_capa} it was decided to use the exposed AST interface in order
+to perform the static analysis. The matcher interface provides a declarative API by which the
+program searches for regions which satisfy known static requirements. The interface itself is rather
+unwieldly to use directly.  \lstinputlisting{./Code/mapMatcher.cpp} As a result I created a matcher
+combinator library for simplification purposes.
 
 \subsubsection{ASTMatcher Combinator Library}
 In order to simplify the matchers and prevent them from becoming unmanagebly large, I designed a
@@ -62,7 +56,7 @@ performant in:
 \begin{itemize}
     \item Map Operations
     \item Reduce Operations
-    \item Scan (Prefix Sum) Operations
+    \item Scan (Prefix Network) Operations
     \item Matrix Operations
 \end{itemize}
 it became clear that identifying components of the codebase that exhibited similarities to these
@@ -73,8 +67,8 @@ Even though the matcher can be highly specific, there is still the requirement o
 callback is responsible for identifying whether the matched pattern is actually representative of
 the expected pattern, or whether it is infact a potential false positive. Additionally the callback
 is responsible for logging the detected pattern as well as relevant information, such as the number
-of elements being manipulated, for use by the reporter module. This will be explained in more detail
-in section \ref{detailedExample}.
+of elements being manipulated, for use by the reporter module. This is explained in more detail
+in section \ref{caseStudy}.
 
 \subsubsection{Benchmark Integration}
 A key aspect of CAPA is the integration of the benchmarking component with the detected outcomes to
@@ -97,46 +91,112 @@ no benchmark JSON file exists. This information is then used by the reporter mod
 end user with further information about potential optimisations within their analysed codebase.
 
 \subsubsection{Reporting}
-
+The reporter module is dynamically loaded at runtime to provide the end user with readily swappable
+components, this is a continuation of the design decision implemented by the designers of OCLint.
+The reporter module is reponsible for accepting all recognised patterns and providing an output.
+Reporters are also responsible for utilising performance criteria calculated by the benchmark suite
+and integrating this information into the output report. CAPA currently has only one reporter, the
+text reporter which provides coloured output for ANSI terminals.
 
 \subsection{Benchmarks}
-\subsubsection{Benchmark Structure}
+A key component of this project is the ability of CAPA to provide performance characteristics for a
+given system, thus a benchmarking suite was developed to gauge comparitive CPU and GPU performance
+for known problem sets.
 
-\subsubsection{Tools}
+\subsubsection{Benchmark Structure}
+The benchmarking suite is designed using the hayai\cite{hayai} library for benchmark automation,
+the hayai library provides a macro interface similar to googleTest, this was used to benchmark both
+Host and Device performance.
+
+\subsubsection{Libraries Benchmarked}
+Three libraries were benchmarked through this process, in order to emulate industry practice. For
+host and device side parallel primitives the CUDA Thrust\cite{thrust} library was used. For Matrix
+Multiplication the Eigen\cite{eigen} library was used for the host side implementation, and
+CuBLAS\cite{cublas} was used for device side implementation.
+
+\subsubsection{Preperation}
+Template metaprogramming was utilised to ensure a generic and extensible testing framework was
+generated. A monolithic benchmark object is responsible for setting up and running the individual
+operations, which are accessed through a benchmarking fixture via object composition.
 
 \subsubsection{Implementations}
+All benchmarks were run with floating point precision, however all benchmarks are templated over
+their implementation type, so benchmarks are lower or higher precisions are capable.
 
+Additionally all device benchmarks include onload and offload time for memory management, and no
+device benchmarks utilise explicit streaming or pinned memory.
+
+The benchmark code was compiled at with no optimisations and with \lstinline{-fno_vectorize} enabled, to ensure
+all host code was purely sequential.
 \paragraph{Map}
+The map benchmark simply implemented a negation across a number of random elements.
+
 \subparagraph{Host}
+The host map operation is directly implemented by thrust:
+\lstinputlisting[linerange={136-139}]{/home/james/Projects/Parallel-AAA/benchmark/src/include/bench.h}
+
 \subparagraph{Device}
+The device map operation is directly implemented by thrust, however the Device Vector is first
+intisialised by the Host vector before being operated on.
+\lstinputlisting[linerange={141-145}]{/home/james/Projects/Parallel-AAA/benchmark/src/include/bench.h}
+
 
 \paragraph{Reduce}
-\subparagraph{Host}
-\subparagraph{Device}
+The reduce bencmark is parameterised over a binary operation with a known identity, this is enforced
+by the use of template metaprogramming and a simulated closure object via a C++ Functor. The
+reduction benchmark traverses the vector searching for the minimum value.
 
-\paragraph{Scan (Prefix Sum)}
 \subparagraph{Host}
+The host operation relies on thrust for the computation.
+\lstinputlisting[linerange={96-100}]{/home/james/Projects/Parallel-AAA/benchmark/src/include/bench.h}
+
 \subparagraph{Device}
+The device operation relies on thrust for the computation.
+\lstinputlisting[linerange={102-107}]{/home/james/Projects/Parallel-AAA/benchmark/src/include/bench.h}
+
+
+\paragraph{Scan (Prefix Network)}
+The scan benchmark is also parameterised over a binary operation with a known identity, again this
+enforced by the C++ template engine. The scan benchmark is also traversing the vector searching for
+the minimum value, storing all intermediate results.
+
+\subparagraph{Host}
+The host operation relies on thrust for the computation.
+\lstinputlisting[linerange={116-120}]{/home/james/Projects/Parallel-AAA/benchmark/src/include/bench.h}
+
+\subparagraph{Device}
+The device operation relies on thrust for the computation.
+\lstinputlisting[linerange={122-127}]{/home/james/Projects/Parallel-AAA/benchmark/src/include/bench.h}
 
 \paragraph{Dense Matrix Multiplication}
+Dense matrix multiplication benchmarks were implemented via Eigen for the host side, and CuBLAS for
+the device side. Thrust was used for memory management on the device side.
+
 \subparagraph{Host}
+The host operation relies on Eigen for the computation. Eigen provides overloaded operators for
+matrix operations.
+\lstinputlisting[linerange={169-172}]{/home/james/Projects/Parallel-AAA/benchmark/src/include/bench.h}
+
 \subparagraph{Device}
+The device operation relies on Thrust for memory management and CuBLAS for the actual matrix
+multiplication.
+\lstinputlisting[linerange={154-162, 173-214}]{/home/james/Projects/Parallel-AAA/benchmark/src/include/bench.h}
 
-
-\subsubsection{Typesafe CUDA primatives}
+\subsubsection{Typesafe CUDA Primitives} 
 Additionally in order to increase code re-use I've attempted to implement the concept of
 Type-Classes into CUDA C++. This allows for the single case of higher order functions such as Map,
 Reduce and Scan. This implementation utilises template meta-programming and templated type alias's
 to produce type safe higher order polymorphism within CUDA compute kernels.
 \lstinputlisting{./Code/typeclass.cpp} This code segment demonstrates typeclass instances for
 operations over both \textit{Functors} and \textit{BiFunctors}, the \textit{Functor} typeclass is
-the alias uCat, a function which accepts a single input of type T and returns a single output of
-type T. The second typeclass definition is the \textit{mCat} defition, defining the monoidal
-typeclass requirement of \textit{mConCat}. This is any function that accepts 2 inputs of type T and
-returns an output of type T. These typeclasses are then used to validate the parametric polymorphism
-of the \textit{biMapKernel}, which implements a polymorphic bimap operation, the key aspect of the
+the alias \lstinline{uCat}, a function which accepts a single input of type \lstinline{T} and
+returns a single output of type \lstinline{T}. The second typeclass definition is the
+\lstinline{mCat} defition, defining the monoidal typeclass requirement of \textit{mConCat}. This is
+any function that accepts 2 inputs of type \lstinline{T} and returns an output of type
+\lstinline{T}. These typeclasses are then used to validate the parametric polymorphism of the
+\lstinline{biMapKernel}, which implements a polymorphic bimap operation, the key aspect of the
 \textit{bifunctor} typeclass, as well as the common map kernel, which is the single requirement of
 the \textit{functor} typeclass. This parametric polymorphism provides an easy to use, clear and
 concise framework from which to build larger GPU benchmarking routines, by utilising the higher
-order nature of the GPU \textit{primatives}. To summarise the category theory, this essentially
-provides a type safe way to write less code.
+order nature of the GPU primitives. To summarise this essentially provides a type safe way to write
+less code.

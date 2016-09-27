@@ -125,10 +125,23 @@ M.~Harris, ``Parallel prefix sum (scan) with cuda,'' 2007. [Online]. Available:
 \bibitem{inzunzaperformance}
 O.~Inzunza-Monreal, ``Performance of parallel processing on processing units.''
 
+\bibitem{clangFeatures}
+\BIBentryALTinterwordspacing
+``Clang features and goals,'' 2016. [Online]. Available:
+  \url{http://clang.llvm.org/features.html}
+\BIBentrySTDinterwordspacing
+
 \bibitem{JSON}
 \BIBentryALTinterwordspacing
 ``Json for modern c++,'' 2016, license: MIT. [Online]. Available:
   \url{https://nlohmann.github.io/json/}
+\BIBentrySTDinterwordspacing
+
+\bibitem{hayai}
+\BIBentryALTinterwordspacing
+``hayai,'' 2016, license:
+  https://github.com/nickbruun/hayai/blob/master/LICENSE.md. [Online].
+  Available: \url{https://github.com/nickbruun/hayai}
 \BIBentrySTDinterwordspacing
 
 \end{thebibliography}
