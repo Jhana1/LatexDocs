@@ -133,12 +133,12 @@ The map benchmark simply implemented a negation across a number of random elemen
 
 \subparagraph{Host}
 The host map operation is directly implemented by thrust:
-\lstinputlisting[linerange={136-139}]{/home/james/Projects/Parallel-AAA/benchmark/src/include/bench.h}
+\lstinputlisting[linerange={136-139}]{/home/james/Projects/CAPA-Benchmarker/benchmark/include/bench.h}
 
 \subparagraph{Device}
 The device map operation is directly implemented by thrust, however the Device Vector is first
 intisialised by the Host vector before being operated on.
-\lstinputlisting[linerange={141-145}]{/home/james/Projects/Parallel-AAA/benchmark/src/include/bench.h}
+\lstinputlisting[linerange={141-145}]{/home/james/Projects/CAPA-Benchmarker/benchmark/include/bench.h}
 
 
 \paragraph{Reduce}
@@ -148,11 +148,11 @@ reduction benchmark traverses the vector searching for the minimum value.
 
 \subparagraph{Host}
 The host operation relies on thrust for the computation.
-\lstinputlisting[linerange={96-100}]{/home/james/Projects/Parallel-AAA/benchmark/src/include/bench.h}
+\lstinputlisting[linerange={96-100}]{/home/james/Projects/CAPA-Benchmarker/benchmark/include/bench.h}
 
 \subparagraph{Device}
 The device operation relies on thrust for the computation.
-\lstinputlisting[linerange={102-107}]{/home/james/Projects/Parallel-AAA/benchmark/src/include/bench.h}
+\lstinputlisting[linerange={102-107}]{/home/james/Projects/CAPA-Benchmarker/benchmark/include/bench.h}
 
 
 \paragraph{Scan (Prefix Network)}
@@ -162,11 +162,11 @@ the minimum value, storing all intermediate results.
 
 \subparagraph{Host}
 The host operation relies on thrust for the computation.
-\lstinputlisting[linerange={116-120}]{/home/james/Projects/Parallel-AAA/benchmark/src/include/bench.h}
+\lstinputlisting[linerange={116-120}]{/home/james/Projects/CAPA-Benchmarker/benchmark/include/bench.h}
 
 \subparagraph{Device}
 The device operation relies on thrust for the computation.
-\lstinputlisting[linerange={122-127}]{/home/james/Projects/Parallel-AAA/benchmark/src/include/bench.h}
+\lstinputlisting[linerange={122-127}]{/home/james/Projects/CAPA-Benchmarker/benchmark/include/bench.h}
 
 \paragraph{Dense Matrix Multiplication}
 Dense matrix multiplication benchmarks were implemented via Eigen for the host side, and CuBLAS for
@@ -175,12 +175,12 @@ the device side. Thrust was used for memory management on the device side.
 \subparagraph{Host}
 The host operation relies on Eigen for the computation. Eigen provides overloaded operators for
 matrix operations.
-\lstinputlisting[linerange={169-172}]{/home/james/Projects/Parallel-AAA/benchmark/src/include/bench.h}
+\lstinputlisting[linerange={169-172}]{/home/james/Projects/CAPA-Benchmarker/benchmark/include/bench.h}
 
 \subparagraph{Device}
 The device operation relies on Thrust for memory management and CuBLAS for the actual matrix
 multiplication.
-\lstinputlisting[linerange={154-162, 173-214}]{/home/james/Projects/Parallel-AAA/benchmark/src/include/bench.h}
+\lstinputlisting[linerange={154-162, 173-214}]{/home/james/Projects/CAPA-Benchmarker/benchmark/include/bench.h}
 
 \subsubsection{Typesafe CUDA Primitives} 
 Additionally in order to increase code re-use I've attempted to implement the concept of

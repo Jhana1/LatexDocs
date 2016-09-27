@@ -9,7 +9,69 @@
 %------------------------------------------------
 
 \subsection{Limitations} % Sub-section
+CAPA does suffer from a number of limitations, some of these are due to it being a static analysis
+tool, others being due to restrictions of resources. The major limitations are summarised here.
+
+\subsubsection{CAPA Over Zealously Analyses Code}
+This limitation is a combination of the two major limiting factors of the project. Due to the fact
+that CAPA is a static analysis tool, much of the information relating to how a program executes is
+not available at compile time, and as such many assumptions had to be made in order to provide
+thorough reports for the end user. As a result of this a decision was made early on that false
+positives were preferable to false negatives, this gave rise to the over zealous nature of CAPA
+which identifies regions of a codebase as potentially parallelizable, even though they contain data
+dependencies. A solution to this problem would have been to use escape analysis, however the time
+investment in developing garbage collecting techniques to perform on the Clang AST was deemed to be
+prohibitive, and as such it was not further explored as an option.
+
+\subsubsection{CAPA Has Limited Capture Cases}
+CAPA only actively catches four problem classes, the three parallel primitives and matrix
+multiplication. Initial goals for CAPA included catching Graph traversals as well as a variety of
+BLAS linear algebra operations. Unfortunately early development of CAPA relied heavily on directly
+interfacing with the clang AST Matcher interface, rather than through a defined combinator library.
+Attempts were made early during the development process to produce a combinator library over the AST
+Matcher interface, however the metaprogramming resulted in monsterous compile time template
+instantiation errors which were nigh on impossible to parse. During the midpoint of the project
+however upstream OCLint build scripts were rebuild to accomodate Clang-3.7 which allowed the use of
+C++14 standards. This allowed the development of a C++ auto closure interface over the matcher
+constructs, allowing for development and utilisation of the combinator library. Whilst initially
+the time constraint of developing matchers for graph traversals proved prohibitive, by using the
+combinator library it appears that future development should not take as much time.
+
+\subsubsection{CAPA LIMITATION 3}
+
+\subsubsection{CAPA LIMITATION 4}
 
 \pagebreak
 
 \subsection{Extensions}
+CAPA and the benchmarker both have the possibility to be extended beyond this project, potentially
+by another final year student. Potential extensions are summarised here.
+
+\subsubsection{CAPA To Capture More Patterns}
+As described in the limitations, CAPA currently on captures a very small number of potentially
+parallel patterns within a codebase, it is currently possible to extend the number of rules which
+the AST is matched against to provide more specifics about extra test cases. Potential examples
+include capturing more linear algebra operations and capturing graph traversals. With more research
+and time CAPA would be able to capture an ever increasing number of potentially parallel patterns
+within sequential codebases.
+
+\subsubsection{CAPA Could Process C++}
+CAPA currently only processes C files, and whilst it can process C++ there are no matchers for any
+of the iterator patterns. As a result of this only a very small subset of C++ is potentially matched
+by CAPA, with majority of it passing through silently. It is however possible to extend CAPA to
+process C++ files due to the reliance on Clang libraries. Expansion into C++ processing would
+increase the use case and increase the potential number of users of CAPA.
+
+\subsubsection{CAPA Could Provide FPGA Analysis}
+CAPA currently exclusively looks for parallelism which is suited for GPU workflows, however the tool
+is general enough in nature that it is possible to extend it to look at possible FPGA applications.
+Although this is outside the scope of this project, currently I am looking at the possibility of
+expanding CAPA into identifying deep pipelines for FPGA development. There is clear potential for
+future students to further develop CAPA in such a way that it is capable of identifying code which
+is suited for running on an FPGA.
+
+\subsubsection{CAPA-Benchmarker Could Provide More Benchmarks}
+This is a natural extension to the CAPA toolset. As more patterns are identified, more benchmarks
+should be created in order to continue to provide more detailed reports.
+
+
