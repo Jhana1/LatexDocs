@@ -49,7 +49,7 @@ pointer to the vector, and some information about the size of the vector, thus w
 information we can construct a matcher.
 
 The matcher for this rule is described by:
-\lstinputlisting[linerange={56-60}]{/home/james/Projects/CAPA/CAPA-rules/rules/parallel/VectorFunctionDeclRule.cpp}
+\lstinputlisting{./Code/Matchers/VectorFunctionDeclRule.cpp}
 The grammar here is quite simple, the matcher is requesting a callback if a function declaration is
 found which has a parameter that is either an array type or a pointer type, and has any parameter
 which is a \lstinline{size_t}. If this is found it is to be bound by the name \lstinline{Function}
@@ -67,7 +67,7 @@ The third match to be reported is a map operation, which is identified on line 4
 information for \lstinline{Map} operations is more thorough than the information provided for
 \lstinline{Vectorisable Function Declaration}, this is because more information is available to the
 callback due to a stronger grammar.
-\lstinputlisting[linerange={155-165}]{/home/james/Projects/CAPA/CAPA-rules/rules/parallel/MapRule.cpp}
+\lstinputlisting{./Code/Matchers/MapRule.cpp}
 The Map matcher utilises the combinator library designed for this project in order to simplify the
 top level expression. Our matcher is looking to identify loops which have an assignment where there
 is a vector on both sides of the operator, or loops which have a compound binary operator and some
@@ -106,10 +106,81 @@ reduction provides more information about potential improvements. The reduction 
 test is the calculating of a mean, by summing the contents of the \lstinline{starting_vec} divided
 by the number of elements. This is cleary a many to one operation which satisfies the requirements
 of parallel reductions. 
-\lstinputlisting[linerange={148-157}]{/home/james/Projects/CAPA/CAPA-rules/rules/parallel/ReduceRule.cpp}
+\lstinputlisting{./Code/Matchers/ReduceRule.cpp}
+In this case the matcher constructed to capture the reductino is different from the map operation,
+again however it reads like english. The matcher is looking for a loop which in the body has either
+an assignment or compound assignment operator, with a single value on the left, and a vector on the
+right. Once this is matched, Clang passes the relevant information back via the callback which
+proceeds to validate whether the region of the AST is a viable for parallelisation.
 
+\subsubsection{Match 5: Scan Operation}
+The fifth match reported is a scan operation, which occurs on line 55 of the source file. Again like
+the map and reduction reports, the scan report also provides information about the number of
+elements and stride size where available. The matcher is described by:
+\lstinputlisting{./Code/Matchers/ScanRule.cpp}
+
+\subsubsection{Match 6: Matrix Multiplication}
+The sixth match reported is the matrix multiplication that occurs on line 77. Matrix multiplication
+is not one of the parallel primitives, however it exhibits massive speed improvements when processed
+on a GPU compared to a CPU. The matcher for the matrix multiplication is described by:
+\lstinputlisting{./Code/Matchers/MatrixMultRule.cpp}
+This matcher is slightly different from the previous examples, as it requires the nesting of
+multiple loops. It still reads like plain english however. The matcher is looking for a for loop
+which has a child that is a forloop which has a child that is also a forloop that has a compound
+addition assignment within the body, on the left hand side of the compound assignment there is a
+Matrix, which is defined as a double indexed vector, and on the right hand side there is a scalar
+multiplication of two matrix elements. Referring to the AST breakdown in figure \ref{mmul_ast}, we
+can see directly how the tree is matched.
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{./Pictures/mmult_ast.png}
+\caption{Matrix Multiplication AST Match Breakdown}\label{mmul_ast}
+\end{figure}
+\pagebreak
+
+\subsubsection{Match 7: Vectorisable Region}
+The seventh match reported is a generally vectorisable region has been detected. This pattern is the
+most general of those reported by CAPA. The AST is queried for regions that are considered generally
+vectorisable, which are then rejected if they are already tagged as a more specific operation. The
+matcher for this pattern is:
+\lstinputlisting{./Code/Matchers/VectorisableRule.cpp}
+This matcher simply looks for a loop of any type which contains no control flow within it.
+Additionally the matcher requires that any ancestor loops also not contain control flow in order to
+minimise the risk of a data dependency. The operation on line 23 can not be described by any of our
+GPU primitives, yet it still meets the requirements for code to be potentially parallelised. Note
+however in this scenario it would be unwise to parallelise this code, as it is merely memory
+operations with very minimal computational work per element.
 
 \subsection{Tagged Regions}\label{TaggedRegion}
+Within the source code there are regions marked \lstinline{///CAPA:IGNORE} and
+\lstinline{/** CAPA:IGNORE */} these alert CAPA that the region is not to be reported on. CAPA
+achieves this through Clang providing the structured comments interface via declaration statements.
+The AST Context preserves special comments indicated by the triple slash or double asterisk,
+allowing CAPA to hook into the context and retrieve comments assigned to declarations. This is
+achieved via the following:
+\lstinputlisting{./Code/ignore.h}
+This is called from within the callback of the matchers to determine whether the region should be
+processed further, or aborted. The callback is expected to pass the nearest parent declaration to
+the function in order to determine whether the region should be ignored or not. The current
+implementation ignores at the function declaration level.
+
+Within the code under test there are three declarations which are marked to ignore. If we extract
+those segments and remove the ignore directive, CAPA includes them in the report, resulting in this
+summary:
+\begin{figure}[H]
+\includegraphics[clip,trim=0cm 19cm 4cm 0.5cm,width=\textwidth]{./Misc/removedIgnore.pdf}
+\caption{Report without ignored regions}
+\end{figure}
+which now includes the previously ignored function declarations, and the vectorisable regions within
+them.
+
+\subsection{Report Generation}
+The report generation is the final part of the CAPA analysis. All patterns have been identified and
+filtered, the reporter is merely responsible for disaplying the information. Currently there is only
+a text reporter which produces coloured output for ANSI terminals. The reporter module interfaces
+with the pattern information provided by the rule set in order to report information that has been
+gathered by the rules. This information is then used by the reporter to interface with the benchmark
+information to produce performance characteristics which are displayed if available. In cases where
+performance metrics are not available, no information is displayed.
 %------------------------------------------------
 
 
