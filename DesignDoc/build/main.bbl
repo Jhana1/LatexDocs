@@ -107,6 +107,34 @@ C.~Woolley, ``High-productivity cuda programming,'' 2013. [Online]. Available:
   \url{http://on-demand.gputechconf.com/gtc/2013/presentations/S3008-High-Productivity-CUDA-Programming.pdf}
 \BIBentrySTDinterwordspacing
 
+\bibitem{jindal2012automated}
+A.~Jindal, N.~Jindal, and D.~Sethia, ``Automated tool to generate parallel cuda
+  code from a serial c code,'' \emph{International Journal of Computer
+  Applications}, vol.~50, no.~8, 2012.
+
+\bibitem{han2011hicuda}
+T.~D. Han and T.~S. Abdelrahman, ``hicuda: High-level gpgpu programming,''
+  \emph{IEEE Transactions on Parallel and Distributed Systems}, vol.~22, no.~1,
+  pp. 78--90, 2011.
+
+\bibitem{baskaran2010automatic}
+M.~M. Baskaran, J.~Ramanujam, and P.~Sadayappan, ``Automatic c-to-cuda code
+  generation for affine programs,'' in \emph{International Conference on
+  Compiler Construction}.\hskip 1em plus 0.5em minus 0.4em\relax Springer,
+  2010, pp. 244--263.
+
+\bibitem{yan2009jcuda}
+Y.~Yan, M.~Grossman, and V.~Sarkar, ``Jcuda: A programmer-friendly interface
+  for accelerating java programs with cuda,'' in \emph{European Conference on
+  Parallel Processing}.\hskip 1em plus 0.5em minus 0.4em\relax Springer, 2009,
+  pp. 887--899.
+
+\bibitem{verdoolaege2013polyhedral}
+S.~Verdoolaege, J.~Carlos~Juega, A.~Cohen, J.~Ignacio~G{\'o}mez, C.~Tenllado,
+  and F.~Catthoor, ``Polyhedral parallel code generation for cuda,'' \emph{ACM
+  Transactions on Architecture and Code Optimization (TACO)}, vol.~9, no.~4,
+  p.~54, 2013.
+
 \bibitem{wikiRef1}
 \BIBentryALTinterwordspacing
 G.~S. Almasi, \emph{Highly Parallel Processing (The Benjamin/Cummings series in
@@ -121,6 +149,11 @@ G.~S. Almasi, \emph{Highly Parallel Processing (The Benjamin/Cummings series in
 M.~Harris, ``Parallel prefix sum (scan) with cuda,'' 2007. [Online]. Available:
   \url{http://www.eecs.umich.edu/courses/eecs570/hw/parprefix.pdf}
 \BIBentrySTDinterwordspacing
+
+\bibitem{gallivan1990parallel}
+K.~A. Gallivan, R.~J. Plemmons, and A.~H. Sameh, ``Parallel algorithms for
+  dense linear algebra computations,'' \emph{SIAM review}, vol.~32, no.~1, pp.
+  54--135, 1990.
 
 \bibitem{inzunzaperformance}
 O.~Inzunza-Monreal, ``Performance of parallel processing on processing units.''

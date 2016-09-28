@@ -108,6 +108,46 @@ order to make determinations about what aspect of the code requires further deve
 weakness of profiling however is that it is often very time consuming, additionally it requires an
 individual developer have an understanding of how to potentially translate sequential serial
 algorithms into their massively parallel equivalents. 
+
+\subsection{Related Work}
+A number of programs attempt to solve the problem of finding parallelism within a serial codebase.
+An existing solution was developed at the Delhi Technological University\cite{jindal2012automated}
+where they developed a tool to automatically convert basic C programs into CUDA-C. The tool parses
+the existing C program searching for regions that satisfy constraints, at which point they insert
+hiCUDA pragmas before passing this on to the hiCUDA compiler. The tool developed looks to
+parallelize all viable loops. The major weakness of the tool is that it only parses a small subset
+of C programs, additionally the tool poorly optimises nested loops by creating multiple CUDA kernels
+rather than employing fusion techniques to generate a single kernel. The focus of their tool is on
+automatic parallelisation by exploiting the composability of existing automatic parallelisation
+tools (hiCUDA). hiCUDA is a high-level embedded DSL for developing CUDA applications
+\cite{han2011hicuda}, the intention of hiCUDA is to lift much of the boilerplate into pragmas for
+automatic generation by the compiler. hiCUDA does not seek to perform automatic vectorisation,
+rather it requires that the programmer be aware of where they would like to engage in
+parallelisation, and then restructure their code in such a way that the hiCUDA via the pragma
+interface are able to restructure the code into CUDA code. Other related works include
+\cite{baskaran2010automatic}\cite{yan2009jcuda}\cite{verdoolaege2013polyhedral} however all of these
+works are focused primarily on automated generation of CUDA code, and each of these described
+limitations in their ability to automatically convert complex programs into efficient CUDA code.
  
 \subsection{Summary}
-TODO:
+It is clear that parallelisation is a key to more efficient and faster computation looking to the
+future. Exploiting SIMD operations to improve throughput is the dominant method used in modern
+computing, with GPUs and FPGAs leading demonstrating significant performance improvements over
+traditional sequential CPUs. As a result of this the major GPU designers have developed programming
+frameworks for developing parallel code that operates on their devices. This has spurred development
+in a variety of fields, however the complexities involved in programming in a manner which exploits parallelism
+has proven to be a struggle for many programmers. As a result of this many researchers have spent
+time developing automatic parallelisation tools which take serial programs and attempt to convert
+them into programs which exploit parallelism. This has been undertaken both via profiling and static
+analysis, however many of these tools suffer from an inability to scale from simple problems to more
+complex problem spaces. Kernel fusion and redundancy are issues that have plagued attempts at
+automatic parallelisers, as well as memory management overheads. These attempts have all attempted
+to remove the programmer from the solution, however it is my belief that for highly optimised
+solutions a developer is still required. As such my project will look not look to develop automatic
+vectorisation, rather it looks to develop tooling that can parse a program and provide a report
+which indicates which region of the codebase could be worth employing a specialist consultant to
+develop, circumventing the major issue that the automatic tools run into. Utilising static analysis
+techniques to interpret the semantics of a program will provide an opportunity to develop a tool
+capable of pinpointing regions within a program that show signs that it may be able to be improved
+through parallelisation. Where most work before has sought to remove the programmer, my final year
+project will aim to assist the programmer in developing more optimised, faster solutions.

@@ -37,9 +37,31 @@ constructs, allowing for development and utilisation of the combinator library. 
 the time constraint of developing matchers for graph traversals proved prohibitive, by using the
 combinator library it appears that future development should not take as much time.
 
-\subsubsection{CAPA LIMITATION 3}
+\subsubsection{Static Analysis Cannot Determine Run-Time Performance}
+As CAPA is a static analysis tool it works exclusively at the semantic level of a program
+description. This creates the major limitation that CAPA is incapable of determing what the run time
+performance of a certain program is, unlike profilers which take runtime information and provide
+reports based on that information. Whilst this is a limitation of CAPA in that it is unable to
+differentiate between regions of a codebase that are run often compared to other regions, it is also
+a strength that the codebase need not be running before potential optimisations can be identified.
 
-\subsubsection{CAPA LIMITATION 4}
+\subsubsection{CAPA Provides Limited Quantitative Information}
+Because CAPA operates at the semantic level, it can be difficult to perform many of the operations
+required to develop source optimisations that another compiler might engage in. Most modern
+compilers compile the AST into a Single Register Assignment form, which is then passed through
+optimisation layers to generate optimised object code. As such CAPA has a very limited number of
+operations that it can exploit to provide determine static information. This however is subject to
+change in the future as Clang further develops their AST facing libraries. During the course of this
+FYP Clang have made significant improvements to the Constant Folding Engine at the AST level, which
+is due to be released with Clang-4.0.
+
+\subsubsection{CAPA-Benchmarker only works on CUDA Capable Devices}
+Unfortunately due to time constraints there was no possiblity of making a cross device vendor
+benchmarking suite that incorporated more than a signle framework. CUDA was chosen due to the vastly
+superior tooling for development over competitors like OpenCL. Although this has resulted in a
+limited application, it would not be a difficult task to extend the benchmarker to work on non CUDA
+devices.
+
 
 \pagebreak
 
@@ -73,5 +95,3 @@ is suited for running on an FPGA.
 \subsubsection{CAPA-Benchmarker Could Provide More Benchmarks}
 This is a natural extension to the CAPA toolset. As more patterns are identified, more benchmarks
 should be created in order to continue to provide more detailed reports.
-
-

@@ -95,7 +95,12 @@ prior calculated values, however there are algorithms for performing parallel Sc
 still retaining work efficiency (a work complexity of $ O(N) $) \cite{ScanOp}.
 
 \subsubsection{Linear Algebra}
-TODO: THIS (NOT A PRIMITIVE, BLAS HOWEVER IS VERY PARALLELISABLE)
+Whilst linear algebra is not a parallel primitive, it does exhibit many features which make it a
+highly efficient problem space to parallelise. The linearity and composibility of problems which fit
+into linear algebra provide a highly exploitable nature for programming on a GPU. This can be
+further explotied by identifying properties of the working set, as both sparse and dense operations
+within the space have operations which can be computed as a composition of parallel
+primitives\cite{gallivan1990parallel}.
 
 \subsection{GPU Parallelism}
 GPUs typically consist of thousands of processing cores, this is significantly greater than the
