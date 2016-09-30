@@ -5,27 +5,27 @@
 
 \section{Parallel Computation} % Major section
 Parallel computing is a type of computation whereby many operations are performed simultaneously, as
-opposed to serial computing where only one operation occurs at a time \cite{wikiRef1}. Parallel
+opposed to serial computing where only one operation occurs at a time\cite{wikiRef1}. Parallel
 computing has been used as a high performance computing technique for some time, with recent
-physical limitations on serial processors forcing further development in the parallel world.
-Modern parallel computing focuses primarily on extracting maximum performance from data level
-parallelism, the process by which independent processors act on a distributed load of data, often
-performing SIMD (Signle Instruction Multiple Data) operations. 
+physical limitations on serial processors forcing further development in the parallel world.  Modern
+parallel computing focuses primarily on extracting maximum performance from data level parallelism,
+the process by which independent processors act on a distributed load of data, often performing SIMD
+(Signle Instruction Multiple Data) operations. 
 
 \subsection{SIMD}
 SIMD describes a computation structure by which many processing units execute the same instruction
 on multiple data in parallel. SIMD allows for significant computation speed improvements over
 traditional serial data processing by operating on multiple data at once. The theoretical speed
-improvements a SIMD processor has over a traditional serial processor can be described by: $ speedup \propto
-min\left(N_{processing\_units}, N_{data}\right) $. In many computing environments $N_{data}$ is
-significantly larger than $N_{processing\_units}$ simplifying the relationship to merely $ speedup
-\propto N_{processing\_units}$. Thus it is clear that with increasing number of processing units the
-commputation speed increases. As a result of this relationship devices have been developed which can
-exploit this fact, most modern CPU's include some form of Vectorised SIMD instruction set. Advanced
-Vector Extensions (AVX) are an extension to the x86 instruction set which are supported by both AMD
-and Intel, which utilises SIMD to improve processor performance for highly parallel workloads. GPU's
-however are far more suited to the task of performing SIMD operations as they often have orders of
-magnitude more processing units than comporable CPU's.
+improvements a SIMD processor has over a traditional serial processor can be described by: $ speedup
+\propto min\left(N_{processing\_units}, N_{data}\right) $. In many computing environments $N_{data}$
+is significantly larger than $N_{processing\_units}$ simplifying the relationship to merely $
+speedup \propto N_{processing\_units}$. Thus it is clear that with increasing number of processing
+units the commputation speed increases. As a result of this relationship devices have been developed
+which can exploit this fact, most modern CPU's include some form of Vectorised SIMD instruction set.
+Advanced Vector Extensions (AVX) are an extension to the x86 instruction set which are supported by
+both AMD and Intel, which utilises SIMD to improve processor performance for highly parallel
+workloads. GPU's however are far more suited to the task of performing SIMD operations as they often
+have orders of magnitude more processing units than comporable CPU's.
 
 \subsection{Parallel Limitations} 
 One of the largest limitations that concerns parallel computing is data dependency. A data
@@ -58,14 +58,13 @@ computation graph for simultanous calculation.
 \lstinputlisting{./Code/ExampleMap.cpp}
 Map operations are the simplest of the three Parallel Primitives, they are simply operations
 describing a one to one mapping from some input value to some output value, Mapped over a set of
-values. Map operations have some restrictions upon them about what is
-considered valid inputs. Operators must have an arity of 1 and the operator must be stateless. If
-these rules are held then the system will be by definition an LTI system, allowing for a trivial
-SIMD implementation of the resulting transformation. If however the input arguments do not satisfy
-these requirements, then the resulting operation will not be well formed, and in most
-implementations the result will be ill-defined. Map operations have a work complexity of $ O(N) $
-for CPU implementations and $ O(N/k) $ for parallel implementations where $ k $ is the number of
-computational cores available.
+values. Map operations have some restrictions upon them about what is considered valid inputs.
+Operators must have an arity of 1 and the operator must be stateless. If these rules are held then
+the system will be by definition an LTI system, allowing for a trivial SIMD implementation of the
+resulting transformation. If however the input arguments do not satisfy these requirements, then the
+resulting operation will not be well formed, and in most implementations the result will be
+ill-defined. Map operations have a work complexity of $ O(N) $ for CPU implementations and $ O(N/k)
+$ for parallel implementations where $ k $ is the number of computational cores available.
 
 
 \subsubsection{Reduce}

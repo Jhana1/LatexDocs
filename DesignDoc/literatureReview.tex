@@ -15,10 +15,10 @@ purpose of this review is to provide a contextualisation around my final year pr
 identify potential challenges in the problem space, as elucidated by prior research. 
 
 \subsection{Automatic Vectorisation}
-Automatic vectorisation is a tool employed by many compiler designers in order to generate ASM which
-utilises specialised hardware level vector instructions.  Same Instruction Multiple Data (SIMD)
-instructions seek to process multiple elements of a dataset simultaneously, utilising multiple
-processing units in order to achieve data level parallelism. Roger Espasa and Mateo Valero
+Automatic vectorisation is a tool employed by many compiler designers in order to generate assembly
+which utilises specialised hardware level vector instructions.  Same Instruction Multiple Data
+(SIMD) instructions seek to process multiple elements of a dataset simultaneously, utilising
+multiple processing units in order to achieve data level parallelism. Roger Espasa and Mateo Valero
 \cite{espasa1997exploiting} explore the potential benefits of Data-Level Parallelism by
 investigating computer architectures to utilise both Instruction Level and Data Level parallel
 constructs. Within their research they identify and develop an architecture to utilise SIMD
@@ -54,24 +54,24 @@ architecture; identification and development of algorithms which leverage this d
 provide substantial computational speedups. The authors of \cite{papadrakakis2011new} explore the
 fundamentals of GPGPU programming, and the CUDA architecture. Inherent within the CUDA architecture
 is hybrid CPU-GPU programming to produce the most efficient solution. In the example described the
-authors extract maximum parallelism from Matrix operations, and leave complex control flow to the
+authors extract maximum parallelism from matrix operations, and leave complex control flow to the
 CPU, thus developing a solution which maximises the performance of the individual components of the
-Hybrid Host-Device model. The proposed solution utilises parallel primitives such as the Reduction,
-which exploits parallelism by utilising a summation tree. This requires that the data and binary
-operator form a semigroup (The set of data must be closed under an associative binary operator). In
-their example the set is of integers, and the operator is addition, which holds these properties.
-The concept of parallel primitive operations is further expanded by \cite{nagarajan2011accelerating}
-which provides terminology to describe parallel patterns for both computation and communication.
-Although this research focuses on parallelism within FPGAs the primitive operations are examples of
-fundamentally parallel operations, exposing high levels of optimisation potential through SIMD
-data-paths. The authors look to extract performance from their FPGA implementation of potentially
-parallelisable algorithms; their key focus is on the Parzen window technique of Gaussian PDF
-estimation, as well as K-Means clustering. From their research they develop a concept of
-pattern-based algorithm decomposition; as a means of exposing potential parallelism within a
-codebase to individuals with little or no experience with highly parallel code.  The authors
-describe a limitation in the existing development framework, where FPGA based systems are developed
-on by only highly specialised and skilled developers. This concept is explored by the authors of
-\cite{sengupta2007scan} in which they describe the limitation upon many programmers is
+hybrid Host-Device model. The proposed solution utilises parallel primitives such as the Reduction,
+which exploits parallelism typically by utilising a tree based structure. This requires that the
+data and binary operator form a semigroup (The set of data must be closed under an associative
+binary operator). In their example the set is of integers, and the operator is addition, which holds
+these properties.  The concept of parallel primitive operations is further expanded by
+\cite{nagarajan2011accelerating} which provides terminology to describe parallel patterns for both
+computation and communication.  Although this research focuses on parallelism within FPGAs the
+primitive operations are examples of fundamentally parallel operations, exposing high levels of
+optimisation potential through SIMD data-paths. The authors look to extract performance from their
+FPGA implementation of potentially parallelisable algorithms; their key focus is on the Parzen
+window technique of Gaussian PDF estimation, as well as K-Means clustering. From their research they
+develop a concept of pattern-based algorithm decomposition; as a means of exposing potential
+parallelism within a codebase to individuals with little or no experience with highly parallel code.
+The authors describe a limitation in the existing development framework, where FPGA based systems
+are developed on by only highly specialised and skilled developers. This concept is explored by the
+authors of \cite{sengupta2007scan} in which they describe the limitation upon many programmers is
 the lack of a breadth of libraries which exploit the benefits of GPGPU programming.  Within this
 paper they present the problem of fragmentation within the GPU programming space, with competing
 standards and API’s resulting in specialists rolling their own solutions to many problems, resulting
@@ -101,13 +101,13 @@ performance improvements.  Static analysis as a tool is rarely used to facilitat
 improvements within a codebase; programmers often utilise profiling in order to determine where to
 invest development time focused on optimisation.  Clearly this presents a divide, where programmers
 often utilise Static Analysis and Profiling in a competing demands structure for developer time.
-Within the NVidia High-Productivity CUDA Programming presentation \cite{nvidiapresentation}
-they recommend the utilisation of a process called “APOD” Assess-Parallelise-Optimise-Deploy.
-Within the Assessment and Optimisation phase of the process they recommend utilising profilers in
-order to make determinations about what aspect of the code requires further development. The
-weakness of profiling however is that it is often very time consuming, additionally it requires an
-individual developer have an understanding of how to potentially translate sequential serial
-algorithms into their massively parallel equivalents. 
+Within the NVidia High-Productivity CUDA Programming presentation \cite{nvidiapresentation} they
+recommend the utilisation of a process called “APOD” Assess-Parallelise-Optimise-Deploy.  Within the
+Assessment and Optimisation phase of the process they recommend utilising profilers in order to make
+determinations about what aspect of the code requires further development. The weakness of profiling
+however is that it is often very time consuming, additionally it requires an individual developer
+have an understanding of how to potentially translate sequential serial algorithms into their
+massively parallel equivalents. 
 
 \subsection{Related Work}
 A number of programs attempt to solve the problem of finding parallelism within a serial codebase.
@@ -135,19 +135,19 @@ future. Exploiting SIMD operations to improve throughput is the dominant method 
 computing, with GPUs and FPGAs leading demonstrating significant performance improvements over
 traditional sequential CPUs. As a result of this the major GPU designers have developed programming
 frameworks for developing parallel code that operates on their devices. This has spurred development
-in a variety of fields, however the complexities involved in programming in a manner which exploits parallelism
-has proven to be a struggle for many programmers. As a result of this many researchers have spent
-time developing automatic parallelisation tools which take serial programs and attempt to convert
-them into programs which exploit parallelism. This has been undertaken both via profiling and static
-analysis, however many of these tools suffer from an inability to scale from simple problems to more
-complex problem spaces. Kernel fusion and redundancy are issues that have plagued attempts at
-automatic parallelisers, as well as memory management overheads. These attempts have all attempted
-to remove the programmer from the solution, however it is my belief that for highly optimised
-solutions a developer is still required. As such my project will look not look to develop automatic
-vectorisation, rather it looks to develop tooling that can parse a program and provide a report
-which indicates which region of the codebase could be worth employing a specialist consultant to
-develop, circumventing the major issue that the automatic tools run into. Utilising static analysis
-techniques to interpret the semantics of a program will provide an opportunity to develop a tool
-capable of pinpointing regions within a program that show signs that it may be able to be improved
-through parallelisation. Where most work before has sought to remove the programmer, my final year
-project will aim to assist the programmer in developing more optimised, faster solutions.
+in a variety of fields, however the complexities involved in programming in a manner which exploits
+parallelism has proven to be a struggle for many programmers. As a result of this many researchers
+have spent time developing automatic parallelisation tools which take serial programs and attempt to
+convert them into programs which exploit parallelism. This has been undertaken both via profiling
+and static analysis, however many of these tools suffer from an inability to scale from simple
+problems to more complex problem spaces. Kernel fusion and redundancy are issues that have plagued
+attempts at automatic parallelisers, as well as memory management overheads. These attempts have all
+attempted to remove the programmer from the solution, however it is my belief that for highly
+optimised solutions a developer is still required. As such my project will look not look to develop
+automatic vectorisation, rather it looks to develop tooling that can parse a program and provide a
+report which indicates which region of the codebase could be worth employing a specialist consultant
+to develop, circumventing the major issue that the automatic tools run into. Utilising static
+analysis techniques to interpret the semantics of a program will provide an opportunity to develop a
+tool capable of pinpointing regions within a program that show signs that it may be able to be
+improved through parallelisation. Where most work before has sought to remove the programmer, my
+final year project will aim to assist the programmer in developing more optimised, faster solutions.
