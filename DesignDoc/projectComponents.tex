@@ -129,7 +129,9 @@ device benchmarks utilise explicit streaming or pinned memory.
 The benchmark code was compiled at with no optimisations and with \lstinline{-fno_vectorize} enabled, to ensure
 all host code was purely sequential.
 \paragraph{Map}
-The map benchmark simply implemented a negation across a number of random elements.
+The map benchmark simply implemented a negation across a number of random elements. This operation
+however is accepted as an argument to the map function, thus any unary function or C++ functor
+object can be used within the map testing operation.
 
 \subparagraph{Host}
 The host map operation is directly implemented by thrust:
@@ -144,7 +146,9 @@ intisialised by the Host vector before being operated on.
 \paragraph{Reduce}
 The reduce bencmark is parameterised over a binary operation with a known identity, this is enforced
 by the use of template metaprogramming and a simulated closure object via a C++ Functor. The
-reduction benchmark traverses the vector searching for the minimum value.
+reduction benchmark traverses the vector searching for the minimum value. Once again though the
+reduction operation requires a monoid for implementation, and a C++ functor object can be
+constructed which satisfies the monoidal restriction.
 
 \subparagraph{Host}
 The host operation relies on thrust for the computation.
@@ -158,7 +162,9 @@ The device operation relies on thrust for the computation.
 \paragraph{Scan (Prefix Network)}
 The scan benchmark is also parameterised over a binary operation with a known identity, again this
 enforced by the C++ template engine. The scan benchmark is also traversing the vector searching for
-the minimum value, storing all intermediate results.
+the minimum value, storing all intermediate results. As with the reduction a monoid is required for
+processing a Scan operation, in this case once again a C++ functor object can be constructed, so
+long as it satisfies the monoidal constraint.
 
 \subparagraph{Host}
 The host operation relies on thrust for the computation.
@@ -170,7 +176,9 @@ The device operation relies on thrust for the computation.
 
 \paragraph{Dense Matrix Multiplication}
 Dense matrix multiplication benchmarks were implemented via Eigen for the host side, and CuBLAS for
-the device side. Thrust was used for memory management on the device side.
+the device side. Thrust was used for memory management on the device side. The matrix multiplication
+is a square matrix multiply, a square matrix multiply was chosen for simplicity, however this can be
+easily changed or extended to provide information about other matrix multiplications.
 
 \subparagraph{Host}
 The host operation relies on Eigen for the computation. Eigen provides overloaded operators for
