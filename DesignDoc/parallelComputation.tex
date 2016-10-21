@@ -65,8 +65,10 @@ resulting transformation. If however the input arguments do not satisfy these re
 resulting operation will not be well formed, and in most implementations the result will be
 ill-defined. Map operations have a work complexity of $ O(N) $ for CPU implementations and $ O(N/k)
 $ for parallel implementations where $ k $ is the number of computational cores available.
-%TODO: Graph of Map Performance
+\includegraphicscaption{./Pictures/Map.png}{Map Operation Comparison CPU v GPU
+\protect\footnotemark[1] }
 
+\FloatBarrier
 \subsubsection{Reduce}
 \lstinputlisting{./Code/ExampleReduce.cpp}
 Reductions are the next simplest of the Parallel Primitives, they are a mapping from many input
@@ -81,9 +83,10 @@ Step Complexity is $ O(log N) $. Reductions form a work-efficient operation.
 Additional optimisation can occur if the operator is not only associative but also commutative,
 whereby the gathering of values may occur out of typical oder providing potentially better constant
 factors.
-%TODO: Graph of Reduce Performance
+\includegraphicscaption{./Pictures/Reduce.png}{Reduce Operation Comparison CPU v GPU\protect\footnotemark[1]}
 \includegraphicscaption{./Pictures/parallelSerial.png}{Serial vs Parallel Sum Reduction Tree}
 
+\FloatBarrier
 \subsubsection{Scan}
 \lstinputlisting{./Code/ExampleScan.cpp}
 Scans or Prefix Networks are the most complext of the Parallel Primitives. Scans are a mapping from
@@ -92,17 +95,19 @@ cumulative intermediate values are maintained. Scan operations require the same 
 Reductions hold. Scans are not trivially parallelisable, as there is a data dependency on
 prior calculated values, however there are algorithms for performing parallel Scan operations whilst
 still retaining work efficiency (a work complexity of $ O(N) $) \cite{ScanOp}.
-%TODO: GRAPH OF SCAN PERFFORMANCE
+\includegraphicscaption{./Pictures/Scan.png}{Scan Operation Comparison CPU v GPU\protect\footnotemark[1]}
 
+\FloatBarrier
 \subsubsection{Linear Algebra}
 Whilst linear algebra is not a parallel primitive, it does exhibit many features which make it a
 highly efficient problem space to parallelise. The linearity and composibility of problems which fit
 into linear algebra provide a highly exploitable nature for programming on a GPU. This can be
 further explotied by identifying properties of the working set, as both sparse and dense operations
 within the space have operations which can be computed as a composition of parallel
-primitives\cite{gallivan1990parallel}.
-%TODO: GRAPH OF MATRIX PERFORMANCE
+primitives\cite{gallivan1990parallel}. \includegraphicscaption{./Pictures/MMult.png}{Square Floating Point Matrix Multiplication Comparison
+CPU v GPU\protect\footnotemark[1]}
 
+\FloatBarrier
 \subsection{GPU Parallelism}
 GPUs typically consist of thousands of processing cores, this is significantly greater than the
 common 4-8 cores found on modern CPUs. GPU architecture relies on numerous simple processing units
@@ -116,6 +121,8 @@ compute archictecture on these devices. Coupling fast global memory, high perfor
 and numerous local registers GPUs provide all the requirements for exploiting SIMD in a massively
 parallel space.
 
+\footnotetext[1]{ Benchmarks were performed using CAPA-Benchmark on an Intel i5-6600K and a NVidia
+750ti in XUbuntu 15.04 }
 
 %------------------------------------------------
 

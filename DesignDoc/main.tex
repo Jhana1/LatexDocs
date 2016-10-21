@@ -34,6 +34,8 @@
 \usepackage{pdflscape}
 \usepackage{pdfpages}
 \usepackage{setspace}
+\usepackage{endnotes}
+\usepackage{placeins}
 \linespread{1.2} % Line spacing
 
 %\setlength\parindent{0pt} % Uncomment to remove all indentation from paragraphs
@@ -119,10 +121,10 @@ tabsize=2, % Number of spaces per tab in the code
 
 % MY MACROS
 \newcommand{\includegraphicscaption}[2]{
-    \begin{figure}[h]
+    \begin{figure}[!htb]
     \includegraphics[width=\textwidth]{#1}
     \caption{#2}
-\end{figure}
+    \end{figure}
 }
 
 

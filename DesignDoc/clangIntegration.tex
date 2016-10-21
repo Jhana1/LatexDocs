@@ -64,11 +64,35 @@ in SSA form). This information is then used by CAPA in the callback in order to 
 the region matches satisfies the requirements of the apparent pattern.
 
 \subsubsection{Invoking CAPA}
-\subsubsection{Clang Frontend Action}
-\subsubsection{AST Matcher Interface}
-\subsubsection{Clang AST Traversal}
-\subsubsection{CAPA Callback Hook}
+CAPA is called just like any other Clang tooling plugin, CAPA uses the command line options parser
+provided by Clang in order to ensure that information relating to compilation is successfully passed
+onto the compiler, whilst parameters necessary within CAPA for analysis are correctly forwarded to
+CAPA. There are two main methods of invoking CAPA, the primary and simplest method is calling CAPA
+on a single file where the entire compile command for that file is known, in this case calling capa
+is as simple as:
 
+\lstinline{CAPA ./codeUnderTest -- clang [compile flags here]}
+
+This however can be augmented through the use of the compile commands database provided by many
+build tools, this file contains all the necessary information required for Clang to compile your
+project. Invoking CAPA using the compile commands database is as simple as:
+
+\lstinline{CAPA -p ./Location/To/Compile/Commands/Database/ ./codeUnderTest }
+
+With this information, CAPA will be able to successfully pass the required arguments to Clang,
+ensuring that the code is compiled correctly, and by extension that CAPA is capable of running
+analysis over the generated AST.
+
+\subsubsection{Clang Frontend Action}
+The process of calling CAPA results in CAPA initiating the Clang Frontend Action, this is the
+component of the Clang compiler that is responsible for generating LLVM Intermediate Representation
+from a source file. The Clang Frontend Action lexes and parses the source file, generating the AST
+which is then used in the Static Analysis and Code Generation phases before LLVM IR is emitted for
+compilation by the LLVM bytecode compiler. CAPA does not require any LLVM IR in order to analyse a
+codebase, rather it stops the Clang compilation process after the generation of the AST and provides
+requests to Clang through the AST Matcher interface.
+
+\subsubsection{General Note}
 In order to integrate fully with Clang CAPA requires that Clang and LLVM be built from source, and
 that the Libtooling library interface be explicitly exported as part of the build commands. This is
 to ensure that CAPA has the correct Application Binary Interface (ABI) into Clang, without which
