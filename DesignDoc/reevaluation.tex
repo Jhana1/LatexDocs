@@ -33,7 +33,7 @@ had a number of requirements that describe what the project necessitates.
 
 This requirement relates directly to the overall aim of the project, which is described in the
 requirements just proceeding this. As the project currently stands there is a completed benchmark
-suite covering all of the GPU primatives in a highly extensible and meta-programmable fashion. Each
+suite covering all of the GPU primitives in a highly extensible and meta-programmable fashion. Each
 of the following benchmarks has been implemented.
 
 \begin{itemize}
@@ -60,7 +60,7 @@ would provide a significantly better final product.
 \paragraph{[OA.002]}
 \textbf{The program shall work on all CUDA devices.}
 
-After careful consideration this requirement was relaxedi at the midpoint of the project. It was
+After careful consideration this requirement was relaxed at the midpoint of the project. It was
 determined to be far too strict. When writing the original requirements analysis I was not as
 familiar with the CUDA toolchain as I was at the midpoint of the project, and as such it is now
 apparent that writing Compute Capability agnostic code is a very difficult feat. In order to best
@@ -76,7 +76,7 @@ project.
 \textbf{The program shall provide comparative CPU performance metrics.}
 
 This requirement was met. The final implementation of the benchmark suite contains both CPU and GPU
-benchmarks for identical operations. This is then used to provide comparitive performance
+benchmarks for identical operations. This is then used to provide comparative performance
 information to the CAPA reporter in order to make predictions about performance improvements within
 the codebase.
 
@@ -105,10 +105,10 @@ without runtime information.
 This requirement was not met. During the midpoint review of the project it was clear that the
 original intention of benchmarking CPU, GPU and FPGA implementations of algorithms was an
 unattainable goal, this was mainly due to the increased focus on the compiler analytics aspect of
-the projct. Between the original requirements analysis and the midpoint review the emphasis became
+the project. Between the original requirements analysis and the midpoint review the emphasis became
 more focused upon the compiler analytics side, with less emphasis on the relative performances and
 tradeoffs between the different computing architectures.  Due to the size of the project, and the
-direction it began to proceed, I elected early to not satisfy the requirement, and to remove it from
+direction it began to proceed, I elected early on to not satisfy the requirement, and to remove it from
 what this project intends to achieve. Removing this requirement provided more time for solving
 problems which were more relevant to final product.
 

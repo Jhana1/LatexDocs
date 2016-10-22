@@ -115,7 +115,7 @@ An existing solution was developed at the Delhi Technological University\cite{ji
 where they developed a tool to automatically convert basic C programs into CUDA-C. The tool parses
 the existing C program searching for regions that satisfy constraints, at which point they insert
 hiCUDA pragmas before passing this on to the hiCUDA compiler. The tool developed looks to
-parallelize all viable loops. The major weakness of the tool is that it only parses a small subset
+parallelise all viable loops. The major weakness of the tool is that it only parses a small subset
 of C programs, additionally the tool poorly optimises nested loops by creating multiple CUDA kernels
 rather than employing fusion techniques to generate a single kernel. The focus of their tool is on
 automatic parallelisation by exploiting the composability of existing automatic parallelisation

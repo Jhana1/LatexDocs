@@ -11,7 +11,7 @@ of analysing code under test.
 \includegraphics[clip, trim=0cm 12.7cm 6cm 0.5cm, width=\textwidth]{./Misc/report.pdf}
 \caption{CAPA Generated Report}
 \end{figure}
-Please note that the cast study requires knowledge of the Clang AST, the output AST dump for the file
+Please note that the case study requires knowledge of the Clang AST, the output AST dump for the file
 under test can be found in the Appendix at section \ref{AST}.
 
 \subsection{Setup}
@@ -31,7 +31,7 @@ Libtooling library begins to traverse the AST searching for a match.
 
 \subsection{Matching}
 When Clang finds a portion of the AST which matches the requirements described by the rules, the
-callback function is envoked and the relevant rule must process the matching AST Node.
+callback function is invoked and the relevant rule must process the matching AST Node.
 
 For our code under test, the first callback that occurs is not shown in the report, this is due to
 the tag which tells CAPA to ignore that function. Further information can be found here
@@ -76,7 +76,7 @@ programmer however in order to extract performance information extra bindings ar
 
 The report states that there are 1 million elements to be processed, in order to extract this
 information, the \lstinline{ForLoop} combinator provides a binding on the conditional which is
-exposed in the callback. Similarly the number of elemts is also bound to by the \lstinline{ForLoop}
+exposed in the callback. Similarly the number of elements is also bound to by the \lstinline{ForLoop}
 combinator with the respective node being exposed to the callback.
 
 Upon a successful match, the callback function is called with the results structure. The results
@@ -86,7 +86,7 @@ strict enough to ensure only valid cases are matched. Within the callback the re
 re-organised into a simple class which defines a few basic operations. In order for a match to be
 validated as truly representative of a Map operation, the results must be verified. This is done
 through the \lstinline{MapInfo.isMap()} method, which confirms that the bound index's of the input
-and ouput vectors are related without a data dependency.
+and output vectors are related without a data dependency.
 
 Beyond validating matches, the callback is responsible for retrieving and providing information to
 the reporters about the known quantities of the region. That is to say that the callback is
@@ -104,11 +104,11 @@ This information is then passed along to the reporter in order to provide perfor
 The fourth match to be reported is a reduction, which occurs on line 49. Like the Map report, the
 reduction provides more information about potential improvements. The reduction in the code under
 test is the calculating of a mean, by summing the contents of the \lstinline{starting_vec} divided
-by the number of elements. This is cleary a many to one operation which satisfies the requirements
+by the number of elements. This is clearly a many to one operation which satisfies the requirements
 of parallel reductions. 
 \lstinputlisting{./Code/Matchers/ReduceRule.cpp}
-In this case the matcher constructed to capture the reductino is different from the map operation,
-again however it reads like english. The matcher is looking for a loop which in the body has either
+In this case the matcher constructed to capture the reduction is different from the map operation,
+again however it reads like English. The matcher is looking for a loop which in the body has either
 an assignment or compound assignment operator, with a single value on the left, and a vector on the
 right. Once this is matched, Clang passes the relevant information back via the callback which
 proceeds to validate whether the region of the AST is a viable for parallelisation.
@@ -125,8 +125,8 @@ is not one of the parallel primitives, however it exhibits massive speed improve
 on a GPU compared to a CPU. The matcher for the matrix multiplication is described by:
 \lstinputlisting{./Code/Matchers/MatrixMultRule.cpp}
 This matcher is slightly different from the previous examples, as it requires the nesting of
-multiple loops. It still reads like plain english however. The matcher is looking for a for loop
-which has a child that is a forloop which has a child that is also a forloop that has a compound
+multiple loops. It still reads like plain English however. The matcher is looking for a for loop
+which has a child that is a for loop which has a child that is also a for loop that has a compound
 addition assignment within the body, on the left hand side of the compound assignment there is a
 Matrix, which is defined as a double indexed vector, and on the right hand side there is a scalar
 multiplication of two matrix elements. Referring to the AST breakdown in figure \ref{mmul_ast}, we
@@ -175,7 +175,7 @@ them.
 
 \subsection{Report Generation}
 The report generation is the final part of the CAPA analysis. All patterns have been identified and
-filtered, the reporter is merely responsible for disaplying the information. Currently there is only
+filtered, the reporter is merely responsible for displaying the information. Currently there is only
 a text reporter which produces coloured output for ANSI terminals. The reporter module interfaces
 with the pattern information provided by the rule set in order to report information that has been
 gathered by the rules. This information is then used by the reporter to interface with the benchmark

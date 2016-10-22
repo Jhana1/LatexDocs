@@ -29,9 +29,9 @@ multiplication. Initial goals for CAPA included catching Graph traversals as wel
 BLAS linear algebra operations. Unfortunately early development of CAPA relied heavily on directly
 interfacing with the clang AST Matcher interface, rather than through a defined combinator library.
 Attempts were made early during the development process to produce a combinator library over the AST
-Matcher interface, however the metaprogramming resulted in monsterous compile time template
+Matcher interface, however the meta-programming resulted in monstrous compile time template
 instantiation errors which were nigh on impossible to parse. During the midpoint of the project
-however upstream OCLint build scripts were rebuild to accomodate Clang-3.7 which allowed the use of
+however upstream OCLint build scripts were rebuild to accommodate Clang-3.7 which allowed the use of
 C++14 standards. This allowed the development of a C++ auto closure interface over the matcher
 constructs, allowing for development and utilisation of the combinator library. Whilst initially
 the time constraint of developing matchers for graph traversals proved prohibitive, by using the
@@ -39,7 +39,7 @@ combinator library it appears that future development should not take as much ti
 
 \subsubsection{Static Analysis Cannot Determine Run-Time Performance}
 As CAPA is a static analysis tool it works exclusively at the semantic level of a program
-description. This creates the major limitation that CAPA is incapable of determing what the run time
+description. This creates the major limitation that CAPA is incapable of determining what the run time
 performance of a certain program is, unlike profilers which take runtime information and provide
 reports based on that information. Whilst this is a limitation of CAPA in that it is unable to
 differentiate between regions of a codebase that are run often compared to other regions, it is also
@@ -55,9 +55,9 @@ change in the future as Clang further develops their AST facing libraries. Durin
 FYP Clang have made significant improvements to the Constant Folding Engine at the AST level, which
 is due to be released with Clang-4.0.
 
-\subsubsection{CAPA-Benchmarker only works on CUDA Capable Devices}
-Unfortunately due to time constraints there was no possiblity of making a cross device vendor
-benchmarking suite that incorporated more than a signle framework. CUDA was chosen due to the vastly
+\subsubsection{CAPA-Benchmark only works on CUDA Capable Devices}
+Unfortunately due to time constraints there was no possibility of making a cross device vendor
+benchmarking suite that incorporated more than a single framework. CUDA was chosen due to the vastly
 superior tooling for development over competitors like OpenCL. Although this has resulted in a
 limited application, it would not be a difficult task to extend the benchmarker to work on non CUDA
 devices.

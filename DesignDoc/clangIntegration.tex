@@ -7,7 +7,7 @@
 CAPA utilises the Clang Libtooling library in order to perform semantic static analysis of any C
 codebase, via a hook into the clang frontend action. Clang is used for a number of reasons, it is
 one of the largest C family compilers in use today, it is standards compliant and up to date. The
-Clang development team also aim to provide clang as a first class library for tool and plugin
+Clang development team also aim to provide Clang as a first class library for tool and plugin
 development. The constant development and improvement of the Clang project allows CAPA to focus
 primarily on the analysis of source code, rather than the structure and scaffolding around parsing
 and generating static information about C source files.
@@ -21,7 +21,7 @@ allows for third party individuals to use and extend the Clang framework in a va
 \cite{clangFeatures}
 The Clang frontend compilation phase is a 4 step process, where Source code is lexed to tokens,
 parsed into an AST for programatic manipulation. Semantic Analysis is performed on the AST to
-identify standards compilance and enforce some optimisations, before being process by the Code
+identify standards compliance and enforce some optimisations, before being process by the Code
 Generator which exports LLVM IR. Each of these phases in the frontend action is exposed via a public
 library which can be utilised by third party tools.
 
@@ -48,7 +48,7 @@ generic and extensible traversals of the AST.
 
 \includegraphicscaption{./Pictures/ClangHook.png}{CAPA Hook-In}
 
-As CAPA is a fork of OCLint \cite{oclint} the scaffolding around the Clang integration was already
+As CAPA is a fork of OCLint\cite{oclint} the scaffolding around the Clang integration was already
 provided. CAPA accepts compile flags via the command line which are passed through to the existing
 Clang compilation libraries which engage in the frontend action. Clang processes the source files
 both lexing and parsing before constructing the Abstract Syntax Tree. CAPA hooks into Clang after
@@ -93,7 +93,7 @@ codebase, rather it stops the Clang compilation process after the generation of 
 requests to Clang through the AST Matcher interface.
 
 \subsubsection{General Note}
-In order to integrate fully with Clang CAPA requires that Clang and LLVM be built from source, and
+In order to integrate fully with Clang, CAPA requires that Clang and llvm be built from source, and
 that the Libtooling library interface be explicitly exported as part of the build commands. This is
 to ensure that CAPA has the correct Application Binary Interface (ABI) into Clang, without which
 CAPA would be unable to perform analysis via the provided AST.

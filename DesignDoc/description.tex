@@ -5,7 +5,7 @@
 
 \section{Project Description} 
 My final year project aimed to create a set of tools for static analytics to help determine which
-algorithms within a code-base may be easily parallelized. The specific intention of it is to provide
+algorithms within a code-base may be easily parallelised. The specific intention of it is to provide
 users with a report describing which parts of their code-base may see a potential speed-up from
 redeveloping them as CUDA (GPU)\cite{cuda} kernels. In order to achieve this both benchmarking and
 theoretical analysis was required, as well as static analysis of the C description of the algorithm
@@ -13,8 +13,8 @@ itself. My final project utilised a combined strategy of static AST analysis, vi
 Clang compiler, as well as integration with a benchmarking suite I created that utilised real high
 performance libraries for both Host and Device code. The use case of this software is for developers
 working primarily in modelling and mathematically intensive areas, as these tend to provide
-significant opportunity to provide improvement. The expectation of potential users is that they will
-note that the report alerts them to potential speedups, and then use the performance metrics to
+significant opportunity to for improvement. The expectation of potential users is that they will
+note that the report alerts them to potential speed-ups, and then use the performance metrics to
 determine whether or not to hire a specialised engineer to redesign the relevant components of their
 system.
 
@@ -30,7 +30,7 @@ patterns.
 
 Given the difficulty of setting up a generic build environment for the Clang tooling, I decided to
 fork a project named OCLint\cite{oclint}, a C, C++ and Obj-C static analysis tool that I had worked
-with earlier.  This tool provides a light framework around the Clang tooling, however most
+with for an earlier project, measuring the meta-programming complexity of large C++ code-bases.  This tool provides a light framework around the Clang tooling, however most
 importantly it provides sophisticated build scripts which work on a variety of operating systems and
 distributions.
 

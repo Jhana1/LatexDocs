@@ -10,7 +10,7 @@ computing has been used as a high performance computing technique for some time,
 physical limitations on serial processors forcing further development in the parallel world.  Modern
 parallel computing focuses primarily on extracting maximum performance from data level parallelism,
 the process by which independent processors act on a distributed load of data, often performing SIMD
-(Signle Instruction Multiple Data) operations. 
+(Single Instruction Multiple Data) operations. 
 
 \subsection{SIMD}
 SIMD describes a computation structure by which many processing units execute the same instruction
@@ -20,12 +20,12 @@ improvements a SIMD processor has over a traditional serial processor can be des
 \propto min\left(N_{processing\_units}, N_{data}\right) $. In many computing environments $N_{data}$
 is significantly larger than $N_{processing\_units}$ simplifying the relationship to merely $
 speedup \propto N_{processing\_units}$. Thus it is clear that with increasing number of processing
-units the commputation speed increases. As a result of this relationship devices have been developed
+units the computation speed increases. As a result of this relationship devices have been developed
 which can exploit this fact, most modern CPU's include some form of Vectorised SIMD instruction set.
 Advanced Vector Extensions (AVX) are an extension to the x86 instruction set which are supported by
 both AMD and Intel, which utilises SIMD to improve processor performance for highly parallel
 workloads. GPU's however are far more suited to the task of performing SIMD operations as they often
-have orders of magnitude more processing units than comporable CPU's.
+have orders of magnitude more processing units than comparable CPU's.
 
 \subsection{Parallel Limitations} 
 One of the largest limitations that concerns parallel computing is data dependency. A data
@@ -37,7 +37,7 @@ a data dependency where a SIMD operation relies on prior information, in this ca
 impact our ability to perform the operations simultaneously, as at no point does the input
 information rely on potential changes to the output information as a side-effect of this
 computation. However in the second case, where we re-assign the vector values, there is a data
-dependency that prevents a Parallel Implimentation from being naivly implemented.
+dependency that prevents a Parallel Implementation from being naively implemented.
 \lstinline{vec[vec[i]]} has a dependency on prior operations performed to \lstinline{vec[]} which
 prevents us from processing all elements of this loop simultaneously. There are however classes of
 problems which may be simply parallelised, these are known as Parallel Primitives.
@@ -51,7 +51,7 @@ three operations which constitute these primitives:
     \item Scan (Prefix Networks)
 \end{itemize}
 These operations all rely on the ability to reformat the problem specification to utilise a
-computation graph for simultanous calculation.
+computation graph for simultaneous calculation.
 
 
 \subsubsection{Map}
@@ -77,11 +77,11 @@ operations. Reductions require that the operator and data form a monoid; the Ope
 binary associative operator, and the set of input values must be closed under that operator. A
 simple example would be addition, over the Reals. Like with the Map primitive, if the input
 restrictions are not met, then the operation will not be well formed. Reduce operations have a work
-complexity of $ O(N) $ for CPU implementations and $ O(N) $ for parallel implemetations, where the
+complexity of $ O(N) $ for CPU implementations and $ O(N) $ for parallel implementations, where the
 Step Complexity is $ O(log N) $. Reductions form a work-efficient operation.
 
 Additional optimisation can occur if the operator is not only associative but also commutative,
-whereby the gathering of values may occur out of typical oder providing potentially better constant
+whereby the gathering of values may occur out of typical order providing potentially better constant
 factors.
 \includegraphicscaption{./Pictures/Reduce.png}{Reduce Operation Comparison CPU v GPU\protect\footnotemark[1]}
 \includegraphicscaption{./Pictures/parallelSerial.png}{Serial vs Parallel Sum Reduction Tree}
@@ -89,10 +89,9 @@ factors.
 \FloatBarrier
 \subsubsection{Scan}
 \lstinputlisting{./Code/ExampleScan.cpp}
-Scans or Prefix Networks are the most complext of the Parallel Primitives. Scans are a mapping from
-many input values to many output values. They are a direct generelisation of a Reduction, where the
-cumulative intermediate values are maintained. Scan operations require the same restrictions for
-Reductions hold. Scans are not trivially parallelisable, as there is a data dependency on
+Scans or Prefix Networks are the most complex of the Parallel Primitives. Scans are a mapping from
+many input values to many output values. They are a direct generalisation of a Reduction, where the
+cumulative intermediate values are maintained. Scan operations require the same restrictions for upon their data and operator as Reductions. Scans are not trivially parallelisable, as there is a data dependency on
 prior calculated values, however there are algorithms for performing parallel Scan operations whilst
 still retaining work efficiency (a work complexity of $ O(N) $) \cite{ScanOp}.
 \includegraphicscaption{./Pictures/Scan.png}{Scan Operation Comparison CPU v GPU\protect\footnotemark[1]}
@@ -102,7 +101,7 @@ still retaining work efficiency (a work complexity of $ O(N) $) \cite{ScanOp}.
 Whilst linear algebra is not a parallel primitive, it does exhibit many features which make it a
 highly efficient problem space to parallelise. The linearity and composibility of problems which fit
 into linear algebra provide a highly exploitable nature for programming on a GPU. This can be
-further explotied by identifying properties of the working set, as both sparse and dense operations
+further exploited by identifying properties of the working set, as both sparse and dense operations
 within the space have operations which can be computed as a composition of parallel
 primitives\cite{gallivan1990parallel}. \includegraphicscaption{./Pictures/MMult.png}{Square Floating Point Matrix Multiplication Comparison
 CPU v GPU\protect\footnotemark[1]}
